@@ -1,0 +1,2 @@
+Student_ID,Name,Email,Phone,Embedding_Path,Image_Path,Created_Date
+STUDENT001,John Doe,john.doe@example.com,+1234567890,static/embeddings/STUDENT001.npy,static/uploads/STUDENT001_profile.jpg,2025-09-20 10:27:53

@@ -1,0 +1,75 @@
+/* Futuristic Neon Glow Effects and Gradient Accents */
+
+/* Add neon glow to card titles */
+.card.black-glass .card-title {
+    text-shadow: 0 0 10px rgba(0, 185, 199, 0.4),
+                 0 0 20px rgba(0, 185, 199, 0.2) !important;
+}
+
+/* Pulsating icon glow */
+.card.black-glass .card-title i {
+    animation: iconPulse 3s infinite alternate;
+}
+
+@keyframes iconPulse {
+    0%, 100% {
+        text-shadow: 0 0 8px rgba(0, 185, 199, 0.7);
+    }
+    50% {
+        text-shadow: 0 0 15px rgba(0, 185, 199, 0.9),
+                     0 0 25px rgba(0, 185, 199, 0.5);
+    }
+}
+
+/* Gradient accent lines */
+.card.black-glass::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(99, 50, 230, 0.8),
+        rgba(0, 185, 199, 0.8),
+        rgba(99, 50, 230, 0.8),
+        transparent
+    );
+    opacity: 0.3;
+    transition: all 0.5s ease;
+}
+
+.card.black-glass:hover::after {
+    opacity: 0.7;
+}
+
+/* Enhanced button gradient */
+.card.black-glass .btn-primary {
+    background: linear-gradient(135deg, 
+        rgba(2, 136, 209, 1) 0%, 
+        rgba(38, 198, 218, 1) 100%) !important;
+    border: none;
+    position: relative;
+    z-index: 1;
+}
+
+.card.black-glass .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+        rgba(38, 198, 218, 1) 0%, 
+        rgba(2, 136, 209, 1) 100%);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.5s ease;
+}
+
+.card.black-glass .btn-primary:hover::after {
+    opacity: 1;
+}

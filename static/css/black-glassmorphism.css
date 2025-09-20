@@ -1,0 +1,314 @@
+/* Black Glassmorphism Card Effect */
+
+/* Card Styles with Black Glassmorphism */
+.card.black-glass {
+    background: rgba(8, 8, 15, 0.85) !important; /* Dark, almost black background with transparency */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+    color: #ffffff !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    padding: 0 !important; /* Reset any padding */
+}
+
+.card.black-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 185, 199, 0.7), 
+        transparent
+    );
+    z-index: 2;
+}
+
+/* Card Header with Black Glassmorphism */
+.card.black-glass .card-header {
+    background: rgba(12, 12, 20, 0.9) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 1.25rem !important;
+}
+
+.card.black-glass .card-title {
+    color: #ffffff !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(0, 185, 199, 0.3);
+}
+
+.card.black-glass .card-title i {
+    color: #00b9c7; /* Teal accent color */
+    margin-right: 12px;
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px rgba(0, 185, 199, 0.5);
+}
+
+/* Card Content */
+.card.black-glass p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-size: 1.15rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.5rem !important;
+    letter-spacing: 0.3px;
+}
+
+/* Button Styling */
+.card.black-glass .btn-primary {
+    background: linear-gradient(135deg, #0288d1, #26c6da) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 185, 199, 0.3) !important;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 0.75rem 1.25rem !important;
+    text-transform: uppercase !important;
+}
+
+.card.black-glass .btn-primary {
+    position: relative;
+    overflow: hidden;
+}
+
+.card.black-glass .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 185, 199, 0.5) !important;
+}
+
+/* Shimmering effect for primary button */
+.card.black-glass .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card.black-glass .btn-primary:hover::before {
+    animation: shimmer 1.5s infinite;
+    opacity: 1;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: rotate(30deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(30deg) translateX(100%);
+    }
+}
+
+.card.black-glass .btn-primary i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.card.black-glass .btn-primary:hover i {
+    transform: scale(1.2);
+}
+
+.card.black-glass .btn-secondary {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    transition: all 0.3s ease;
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 1.25rem !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.card.black-glass .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Border pulse effect for secondary button */
+.card.black-glass .btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    border-radius: inherit;
+}
+
+.card.black-glass .btn-secondary:hover::after {
+    animation: pulseBorder 1.5s infinite;
+    opacity: 1;
+}
+
+@keyframes pulseBorder {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .card.black-glass .card-title {
+        font-size: 1.6rem !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .card.black-glass .card-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .card.black-glass p {
+        font-size: 1.05rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .card.black-glass .card-title {
+        font-size: 1.4rem !important;
+    }
+    
+    .card.black-glass p {
+        font-size: 1rem !important;
+        margin-bottom: 1.2rem !important;
+    }
+    
+    .card.black-glass .btn-primary,
+    .card.black-glass .btn-secondary {
+        padding: 0.65rem 1.1rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .card.black-glass:hover {
+        transform: translateY(-5px); /* Smaller transform on mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    .card.black-glass .card-title {
+        font-size: 1.3rem !important;
+        letter-spacing: 0.5px;
+    }
+    
+    .card.black-glass .card-title i {
+        font-size: 1.2rem;
+        margin-right: 8px;
+    }
+    
+    .card.black-glass .btn-primary,
+    .card.black-glass .btn-secondary {
+        width: 100%;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .card.black-glass .d-flex.gap-2 {
+        flex-direction: column !important;
+    }
+}
+
+.card.black-glass .btn-secondary i {
+    margin-right: 8px;
+    opacity: 0.9;
+}
+
+/* Success Button Styling */
+.card.black-glass .btn-success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3) !important;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.card.black-glass .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.5) !important;
+}
+
+.card.black-glass .btn-success i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+/* Hover Effect */
+.card.black-glass {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+.card.black-glass:hover {
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6) !important;
+    transform: translateY(-8px);
+}
+
+/* Enhanced hover glow effect */
+.card.black-glass::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 30px rgba(0, 185, 199, 0.1);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.card.black-glass:hover::after {
+    opacity: 1;
+}
+
+/* Subtle border glow on hover */
+.card.black-glass:hover::before {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 185, 199, 0.9), 
+        transparent
+    );
+    animation: border-glow 2s infinite;
+}
+
+@keyframes border-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}

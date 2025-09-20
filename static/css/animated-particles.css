@@ -1,0 +1,42 @@
+/* Animated Particles Background */
+
+/* Particle container */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Individual particles */
+.particle {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(0, 185, 199, 0.8), transparent);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Particle animations */
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: var(--particle-opacity);
+    }
+    90% {
+        opacity: var(--particle-opacity);
+    }
+    100% {
+        transform: translateY(-100px) translateX(var(--particle-drift)) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* JavaScript to create particles */

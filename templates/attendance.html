@@ -1,0 +1,413 @@
+{% extends "base.html" %}
+
+{% block title %}Attendance - Face Recognition System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Attendance Overview -->
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">
+                <i class="fas fa-calendar-check"></i>
+                Attendance Management
+            </h1>
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('attendance_today') }}" class="btn btn-success">
+                    <i class="fas fa-calendar-day"></i> Today's Attendance
+                </a>
+                <a href="{{ url_for('export_data', data_type='attendance') }}" class="btn btn-primary">
+                    <i class="fas fa-download"></i> Export CSV
+                </a>
+            </div>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">{{ stats.total_today }}</span>
+                <span class="stat-label">Present Today</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ stats.total_week }}</span>
+                <span class="stat-label">This Week</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ stats.total_month }}</span>
+                <span class="stat-label">This Month</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ stats.avg_daily }}</span>
+                <span class="stat-label">Daily Average</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-filter"></i>
+                Filter Attendance Records
+            </h2>
+        </div>
+        
+        <form method="GET" class="grid grid-3">
+            <div class="form-group">
+                <label for="date_from" class="form-label">From Date</label>
+                <input type="date" id="date_from" name="date_from" class="form-control" 
+                       value="{{ request.args.get('date_from', '') }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="date_to" class="form-label">To Date</label>
+                <input type="date" id="date_to" name="date_to" class="form-control" 
+                       value="{{ request.args.get('date_to', '') }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="student_id" class="form-label">Student ID</label>
+                <input type="text" id="student_id" name="student_id" class="form-control" 
+                       placeholder="Enter student ID" value="{{ request.args.get('student_id', '') }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="department" class="form-label">Department</label>
+                <select id="department" name="department" class="form-control">
+                    <option value="">All Departments</option>
+                    {% for dept in departments %}
+                    <option value="{{ dept }}" {{ 'selected' if request.args.get('department') == dept else '' }}>
+                        {{ dept }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="method" class="form-label">Recognition Method</label>
+                <select id="method" name="method" class="form-control">
+                    <option value="">All Methods</option>
+                    <option value="camera" {{ 'selected' if request.args.get('method') == 'camera' else '' }}>Camera</option>
+                    <option value="photo" {{ 'selected' if request.args.get('method') == 'photo' else '' }}>Photo</option>
+                </select>
+            </div>
+            
+            <div class="form-group d-flex align-center">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Filter
+                </button>
+                <a href="{{ url_for('attendance') }}" class="btn btn-secondary ml-2">
+                    <i class="fas fa-times"></i> Clear
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Attendance Records -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-list"></i>
+                Attendance Records
+                {% if attendance_records %}
+                    <span class="badge badge-primary">{{ attendance_records|length }} records</span>
+                {% endif %}
+            </h2>
+        </div>
+        
+        {% if attendance_records %}
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Method</th>
+                        <th>Confidence</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in attendance_records %}
+                    <tr>
+                        <td>
+                            <img src="{{ url_for('student_photo', student_id=record.student_id) }}" 
+                                 alt="{{ record.get('name', 'Unknown') }}" 
+                                 class="student-photo"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIyMCIgZmlsbD0iIzZCNzI4MCIvPjxwYXRoIGQ9Ik0yMCAyMEM5IDIwIDkgMTEgMjAgMTFTMzEgMjAgMjAgMjBaIiBmaWxsPSIjRkZGIi8+PHBhdGggZD0iTTEyIDMwQzEyIDI1LjU4NTggMTUuNTg1OCAyMiAyMCAyMlMyOCAyNS41ODU4IDI4IDMwSDE2WiIgZmlsbD0iI0ZGRiIvPjwvc3ZnPg==';">
+                        </td>
+                        <td>{{ record.date if record.date else 'N/A' }}</td>
+                        <td>{{ record.time if record.time else 'N/A' }}</td>
+                        <td>{{ record.student_id }}</td>
+                        <td>{{ record.name if record.name else 'Unknown' }}</td>
+                        <td>{{ record.get('department', 'N/A') }}</td>
+                        <td>{{ record.get('year', 'N/A') }}</td>
+                        <td>
+                            {% if record.get('method') %}
+                            <span class="badge badge-{{ 'success' if record.method == 'camera' else 'warning' }}">
+                                <i class="fas fa-{{ 'video' if record.method == 'camera' else 'image' }}"></i>
+                                {{ record.method.title() }}
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if record.confidence and record.confidence != 'N/A' and record.confidence != '' %}
+                                {% set conf_float = record.confidence|float %}
+                                {% if conf_float > 0 %}
+                                    {% set conf_pct = (conf_float * 100)|round|int %}
+                                    <div class="d-flex align-center gap-1">
+                                        <div class="confidence-bar" style="width: 60px;">
+                                            <div class="confidence-fill confidence-{{ 'success' if conf_pct > 80 else 'warning' if conf_pct > 60 else 'error' }}" 
+                                                 data-width="{{ conf_pct }}"></div>
+                                        </div>
+                                        <span class="badge badge-{{ 'success' if conf_pct > 80 else 'warning' if conf_pct > 60 else 'error' }}">
+                                            {{ conf_pct }}%
+                                        </span>
+                                    </div>
+                                {% else %}
+                                    <span class="badge badge-secondary">N/A</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="badge badge-secondary">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td class="location-cell">
+                            {% if record.get('location') and record.location != '' and record.location != 'No location data' %}
+                                <div class="location-info">
+                                    <div class="location-address">
+                                        <i class="fas fa-map-marker-alt text-primary"></i>
+                                        <span class="location-text">{{ record.location }}</span>
+                                    </div>
+                                    {% if record.get('latitude') and record.get('longitude') and record.latitude != '' and record.longitude != '' %}
+                                        <div class="coordinates-info">
+                                            <small class="text-muted">
+                                                <i class="fas fa-crosshairs"></i>
+                                                {{ "%.4f" | format(record.latitude|float) }}, {{ "%.4f" | format(record.longitude|float) }}
+                                            </small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <span class="badge badge-secondary">
+                                    <i class="fas fa-question-circle"></i> No location
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="badge badge-success">
+                                <i class="fas fa-check"></i> {{ record.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination would go here if needed -->
+        {% if attendance_records|length >= 50 %}
+        <div class="text-center mt-3">
+            <p class="text-muted">Showing {{ attendance_records|length }} records. {% if attendance_records|length == 100 %}Use filters to narrow down results.{% endif %}</p>
+        </div>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center">
+            <i class="fas fa-calendar-times" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+            <h3>No Attendance Records Found</h3>
+            <p>No attendance records match your current filters.</p>
+            <div class="d-flex gap-2 justify-center mt-3">
+                <a href="{{ url_for('recognition') }}" class="btn btn-primary">
+                    <i class="fas fa-camera"></i> Start Recognition
+                </a>
+                <a href="{{ url_for('attendance') }}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Clear Filters
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Attendance Insights -->
+    {% if attendance_by_date or attendance_by_department %}
+    <div class="grid grid-2">
+        {% if attendance_by_date %}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-line"></i>
+                    Daily Attendance (Last 7 Days)
+                </h3>
+            </div>
+            
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Count</th>
+                            <th>Visual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for date, count in attendance_by_date.items() %}
+                        {% if count is not none and count >= 0 %}
+                        <tr>
+                            <td>{{ date }}</td>
+                            <td><span class="badge badge-primary">{{ count }}</span></td>
+                            <td>
+                                {% set max_count = attendance_by_date.values()|max %}
+                                {% set percentage = (count / max_count * 100)|round if max_count > 0 else 0 %}
+                                <div class="progress-bar" style="width: 100px; height: 10px; background: #eee; border-radius: 5px; overflow: hidden;">
+                                    <div class="progress-fill" data-width="{{ percentage }}"></div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% if attendance_by_department %}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-chart-pie"></i>
+                    Attendance by Department
+                </h3>
+            </div>
+            
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Count</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set total_dept_attendance = attendance_by_department.values()|sum %}
+                        {% for dept, count in attendance_by_department.items() %}
+                        {% if count is not none and count >= 0 and total_dept_attendance > 0 %}
+                        <tr>
+                            <td>{{ dept if dept else 'Unknown' }}</td>
+                            <td><span class="badge badge-primary">{{ count }}</span></td>
+                            <td>
+                                {% set percentage = (count / total_dept_attendance * 100)|round %}
+                                <div class="d-flex align-center gap-1">
+                                    <div class="progress-bar" style="width: 60px; height: 10px; background: #eee; border-radius: 5px; overflow: hidden;">
+                                        <div class="progress-fill-primary" data-width="{{ percentage }}"></div>
+                                    </div>
+                                    <span>{{ percentage }}%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.student-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    display: block;
+}
+
+.student-photo:hover {
+    transform: scale(2);
+    z-index: 1000;
+    position: relative;
+    border-color: var(--primary-color);
+    transition: all 0.2s ease;
+}
+
+/* Location Column Styling */
+.location-cell {
+    max-width: 200px;
+    font-size: 0.875rem;
+}
+
+.location-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.location-address {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+}
+
+.location-text {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.coordinates-info {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+}
+
+.coordinates-info i {
+    opacity: 0.7;
+}
+
+.location-cell .badge {
+    font-size: 0.75rem;
+}
+
+/* Responsive adjustments for location column */
+@media (max-width: 1200px) {
+    .location-cell {
+        max-width: 150px;
+    }
+    
+    .location-text {
+        max-width: 120px;
+    }
+    
+    .coordinates-info {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .location-cell {
+        display: none;
+    }
+    
+    /* Show location in a separate row on mobile */
+    .location-mobile {
+        display: block;
+        font-size: 0.75rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+}
+</style>
+{% endblock %}

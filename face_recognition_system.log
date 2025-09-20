@@ -1,0 +1,269 @@
+2025-09-20 15:28:07,049 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 15:28:07,052 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 15:28:07,052 - __main__ - INFO - Loading DeepFace model...
+2025-09-20 15:28:15,744 - __main__ - INFO - DeepFace model loaded successfully!
+2025-09-20 15:28:15,780 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 15:28:15,781 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 15:28:15,781 - __main__ - INFO - Model: Facenet
+2025-09-20 15:28:15,782 - __main__ - INFO - Detector: retinaface
+2025-09-20 15:28:15,782 - __main__ - INFO - Threshold: 0.4
+2025-09-20 15:28:15,829 - werkzeug - WARNING -  * Debugger is active!
+2025-09-20 15:28:15,854 - werkzeug - INFO -  * Debugger PIN: 355-879-182
+2025-09-20 15:29:14,902 - werkzeug - INFO -  * Detected change in 'E:\\Arul\\Repo\\Face Recognition using Group Photo\\app.py', reloading
+2025-09-20 15:29:24,047 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 15:29:24,049 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 15:29:24,050 - __main__ - INFO - Loading DeepFace model (Facenet)...
+2025-09-20 15:29:29,876 - __main__ - INFO - DeepFace model loaded successfully: Facenet
+2025-09-20 15:29:29,877 - __main__ - INFO - Using detector backend: retinaface
+2025-09-20 15:29:29,906 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 15:29:29,907 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 15:29:29,907 - __main__ - INFO - Model: Facenet
+2025-09-20 15:29:29,908 - __main__ - INFO - Detector: retinaface
+2025-09-20 15:29:29,909 - __main__ - INFO - Threshold: 0.4
+2025-09-20 15:29:29,934 - werkzeug - WARNING -  * Debugger is active!
+2025-09-20 15:29:29,948 - werkzeug - INFO -  * Debugger PIN: 355-879-182
+2025-09-20 17:06:38,203 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:38] "GET / HTTP/1.1" 200 -
+2025-09-20 17:06:38,952 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:38] "[36mGET /static/css/neon-effects.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:39,003 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:39] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:39,025 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:39] "[36mGET /static/js/3d-card-effect.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:39,299 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:39] "[36mGET /static/css/card-3d-effects.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:39,317 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:39] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:40,262 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:40] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-20 17:06:45,197 - __main__ - INFO - Login attempt - Username: 'admin', Password: 'admin'
+2025-09-20 17:06:45,199 - __main__ - INFO - Form data: ImmutableMultiDict([('username', 'admin'), ('password', 'admin'), ('remember', 'on')])
+2025-09-20 17:06:45,200 - __main__ - INFO - Login successful
+2025-09-20 17:06:45,246 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-20 17:06:45,446 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 17:06:45,630 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "GET /dashboard HTTP/1.1" 200 -
+2025-09-20 17:06:45,774 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:45,784 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:45,788 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:45,871 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:45,879 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:45,889 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:45,906 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:45,997 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:45] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:46,001 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:46] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:46,002 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:46] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,008 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "GET /recognition HTTP/1.1" 200 -
+2025-09-20 17:06:49,053 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,070 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,088 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,099 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,138 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,141 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,150 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,171 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,178 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,195 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,199 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/js/group-photo-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,222 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/js/face-recognition-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,224 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/js/result-display-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 17:06:49,267 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:06:49] "[36mGET /static/js/realtime-face-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:45,442 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 17:08:45,871 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:45] "GET /students HTTP/1.1" 200 -
+2025-09-20 17:08:46,010 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,095 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,161 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,164 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,180 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,308 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,319 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[33mGET /student_photo/ HTTP/1.1[0m" 404 -
+2025-09-20 17:08:46,332 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,411 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,487 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:46,510 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:46] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,156 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "GET /recognition HTTP/1.1" 200 -
+2025-09-20 17:08:51,409 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,560 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,640 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,654 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,798 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,840 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,946 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 17:08:51,978 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:51] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:52,228 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:52] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:52,333 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:52] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:52,916 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:52] "[36mGET /static/js/group-photo-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:53,255 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:53] "[36mGET /static/js/face-recognition-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:53,413 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:53] "[36mGET /static/js/result-display-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 17:08:53,562 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 17:08:53] "[36mGET /static/js/realtime-face-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 20:59:09,718 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 20:59:09,736 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 20:59:09,737 - __main__ - INFO - Loading DeepFace model (Facenet)...
+2025-09-20 20:59:18,442 - __main__ - INFO - DeepFace model loaded successfully: Facenet
+2025-09-20 20:59:18,442 - __main__ - INFO - Using detector backend: retinaface
+2025-09-20 20:59:18,544 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 20:59:18,545 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 20:59:18,546 - __main__ - INFO - Model: Facenet
+2025-09-20 20:59:18,546 - __main__ - INFO - Detector: retinaface
+2025-09-20 20:59:18,547 - __main__ - INFO - Threshold: 0.4
+2025-09-20 20:59:18,915 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.1.72.76:5000
+2025-09-20 20:59:18,916 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-09-20 20:59:18,944 - werkzeug - INFO -  * Restarting with stat
+2025-09-20 20:59:32,571 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 20:59:32,576 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 20:59:32,601 - __main__ - INFO - Loading DeepFace model (Facenet)...
+2025-09-20 20:59:39,762 - __main__ - INFO - DeepFace model loaded successfully: Facenet
+2025-09-20 20:59:39,763 - __main__ - INFO - Using detector backend: retinaface
+2025-09-20 20:59:39,785 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 20:59:39,785 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 20:59:39,786 - __main__ - INFO - Model: Facenet
+2025-09-20 20:59:39,786 - __main__ - INFO - Detector: retinaface
+2025-09-20 20:59:39,787 - __main__ - INFO - Threshold: 0.4
+2025-09-20 20:59:39,817 - werkzeug - WARNING -  * Debugger is active!
+2025-09-20 20:59:39,844 - werkzeug - INFO -  * Debugger PIN: 355-879-182
+2025-09-20 20:59:46,820 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:46] "GET / HTTP/1.1" 200 -
+2025-09-20 20:59:47,821 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:47] "[36mGET /static/css/neon-effects.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:47,836 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:47] "[36mGET /static/css/card-3d-effects.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:47,850 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:47] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:48,132 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:48] "[36mGET /static/js/3d-card-effect.js HTTP/1.1[0m" 304 -
+2025-09-20 20:59:48,181 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 20:59:48,977 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:48] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-09-20 20:59:57,666 - __main__ - INFO - Login attempt - Username: 'admin', Password: 'admin'
+2025-09-20 20:59:57,667 - __main__ - INFO - Form data: ImmutableMultiDict([('username', 'admin'), ('password', 'admin'), ('remember', 'on')])
+2025-09-20 20:59:57,668 - __main__ - INFO - Login successful
+2025-09-20 20:59:57,673 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:57] "[32mPOST /login HTTP/1.1[0m" 302 -
+2025-09-20 20:59:57,719 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 20:59:58,748 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:58] "GET /dashboard HTTP/1.1" 200 -
+2025-09-20 20:59:58,851 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,078 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,081 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,081 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,085 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,088 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,165 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,191 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,359 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 20:59:59,384 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 20:59:59] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,406 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "GET /recognition HTTP/1.1" 200 -
+2025-09-20 21:00:03,442 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,452 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,464 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,469 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,506 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,510 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,519 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,533 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,553 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,558 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,782 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/js/result-display-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,854 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/js/realtime-face-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,914 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/js/face-recognition-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 21:00:03,916 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:00:03] "[36mGET /static/js/group-photo-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 21:05:23,697 - werkzeug - INFO -  * Detected change in 'E:\\Arul\\Repo\\Face Recognition using Group Photo\\app.py', reloading
+2025-09-20 21:05:25,270 - werkzeug - INFO -  * Restarting with stat
+2025-09-20 21:05:44,309 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 21:05:44,313 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 21:05:44,313 - __main__ - INFO - Loading DeepFace model (Facenet)...
+2025-09-20 21:05:52,795 - __main__ - INFO - DeepFace model loaded successfully: Facenet
+2025-09-20 21:05:52,796 - __main__ - INFO - Using detector backend: retinaface
+2025-09-20 21:05:52,826 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 21:05:52,826 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 21:05:52,827 - __main__ - INFO - Model: Facenet
+2025-09-20 21:05:52,827 - __main__ - INFO - Detector: retinaface
+2025-09-20 21:05:52,828 - __main__ - INFO - Threshold: 0.4
+2025-09-20 21:05:52,909 - werkzeug - WARNING -  * Debugger is active!
+2025-09-20 21:05:52,931 - werkzeug - INFO -  * Debugger PIN: 355-879-182
+2025-09-20 21:07:09,584 - werkzeug - INFO -  * Detected change in 'E:\\Arul\\Repo\\Face Recognition using Group Photo\\app.py', reloading
+2025-09-20 21:07:11,416 - werkzeug - INFO -  * Restarting with stat
+2025-09-20 21:07:26,957 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 21:07:26,961 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 21:07:26,962 - __main__ - INFO - Loading DeepFace model (Facenet)...
+2025-09-20 21:07:36,108 - __main__ - INFO - DeepFace model loaded successfully: Facenet
+2025-09-20 21:07:36,109 - __main__ - INFO - Using detector backend: retinaface
+2025-09-20 21:07:36,147 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 21:07:36,148 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 21:07:36,148 - __main__ - INFO - Model: Facenet
+2025-09-20 21:07:36,150 - __main__ - INFO - Detector: retinaface
+2025-09-20 21:07:36,151 - __main__ - INFO - Threshold: 0.4
+2025-09-20 21:07:36,175 - werkzeug - WARNING -  * Debugger is active!
+2025-09-20 21:07:36,202 - werkzeug - INFO -  * Debugger PIN: 355-879-182
+2025-09-20 21:07:50,601 - werkzeug - INFO -  * Detected change in 'E:\\Arul\\Repo\\Face Recognition using Group Photo\\app.py', reloading
+2025-09-20 21:07:51,680 - werkzeug - INFO -  * Restarting with stat
+2025-09-20 21:08:05,315 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 21:08:05,319 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 21:08:05,319 - __main__ - INFO - Loading DeepFace model (Facenet)...
+2025-09-20 21:08:12,616 - __main__ - INFO - DeepFace model loaded successfully: Facenet
+2025-09-20 21:08:12,616 - __main__ - INFO - Using detector backend: retinaface
+2025-09-20 21:08:12,643 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 21:08:12,644 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 21:08:12,644 - __main__ - INFO - Model: Facenet
+2025-09-20 21:08:12,645 - __main__ - INFO - Detector: retinaface
+2025-09-20 21:08:12,645 - __main__ - INFO - Threshold: 0.4
+2025-09-20 21:08:12,664 - werkzeug - WARNING -  * Debugger is active!
+2025-09-20 21:08:12,682 - werkzeug - INFO -  * Debugger PIN: 355-879-182
+2025-09-20 21:08:23,160 - werkzeug - INFO -  * Detected change in 'E:\\Arul\\Repo\\Face Recognition using Group Photo\\app.py', reloading
+2025-09-20 21:08:24,341 - werkzeug - INFO -  * Restarting with stat
+2025-09-20 21:08:38,225 - __main__ - INFO - Face Recognition System starting up...
+2025-09-20 21:08:38,229 - __main__ - INFO - Face recognition configured with: Model=Facenet, Detector=retinaface, Threshold=0.4
+2025-09-20 21:08:38,229 - __main__ - INFO - Loading DeepFace model (Facenet)...
+2025-09-20 21:08:45,738 - __main__ - INFO - DeepFace model loaded successfully: Facenet
+2025-09-20 21:08:45,739 - __main__ - INFO - Using detector backend: retinaface
+2025-09-20 21:08:45,783 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 21:08:45,783 - __main__ - INFO - Starting Face Recognition System...
+2025-09-20 21:08:45,783 - __main__ - INFO - Model: Facenet
+2025-09-20 21:08:45,784 - __main__ - INFO - Detector: retinaface
+2025-09-20 21:08:45,784 - __main__ - INFO - Threshold: 0.4
+2025-09-20 21:08:45,809 - werkzeug - WARNING -  * Debugger is active!
+2025-09-20 21:08:45,829 - werkzeug - INFO -  * Debugger PIN: 355-879-182
+2025-09-20 21:09:23,716 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:23] "GET /recognition HTTP/1.1" 200 -
+2025-09-20 21:09:25,238 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,249 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,262 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,277 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,290 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,294 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,306 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/js/group-photo-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,315 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/js/face-recognition-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,335 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/js/result-display-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,339 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/js/realtime-face-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,461 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,528 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,551 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:25,577 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:25] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,503 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 21:09:32,557 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "GET /students HTTP/1.1" 200 -
+2025-09-20 21:09:32,612 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,623 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,639 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,639 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,647 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,724 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,727 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,737 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,752 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,753 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:32,892 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:32] "[33mGET /student_photo/ HTTP/1.1[0m" 404 -
+2025-09-20 21:09:35,117 - __main__ - INFO - Loaded 1 students from CSV
+2025-09-20 21:09:35,213 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "GET /attendance HTTP/1.1" 200 -
+2025-09-20 21:09:35,243 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,259 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,262 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,282 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,286 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,304 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,316 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,321 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,336 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:35,340 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:35] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,712 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "GET /recognition HTTP/1.1" 200 -
+2025-09-20 21:09:38,773 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,782 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/css/futuristic.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,792 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/css/futuristic-overrides.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,815 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/css/face-detection.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,830 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/css/realtime-results.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,832 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/css/enhanced-ui.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,861 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/css/realtime-recognition.css HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,865 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,870 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/js/futuristic-background.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,880 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/js/enhanced-ui.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,898 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/js/group-photo-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,900 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/js/face-recognition-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,902 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/js/result-display-methods.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:38,916 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:38] "[36mGET /static/js/realtime-face-recognition.js HTTP/1.1[0m" 304 -
+2025-09-20 21:09:44,783 - __main__ - ERROR - Error in face detection: [WinError 32] The process cannot access the file because it is being used by another process: 'static/temp/detect_20250920_210944.jpg'
+2025-09-20 21:09:44,794 - werkzeug - INFO - 127.0.0.1 - - [20/Sep/2025 21:09:44] "POST /detect_faces HTTP/1.1" 200 -

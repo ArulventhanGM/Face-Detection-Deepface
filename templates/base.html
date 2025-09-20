@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>{% block title %}Face Recognition System{% endblock %}</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/futuristic.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/futuristic-overrides.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/enhanced-ui.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/face-detection.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/realtime-results.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/realtime-recognition.css') }}">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Holographic Grid Background -->
+    <div class="holographic-grid"></div>
+    <div class="grid-pattern"></div>
+    
+    {% if current_user.is_authenticated %}
+    <header class="glass-header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-user-graduate"></i>
+                <span style="font-family: 'Orbitron', sans-serif;">Face Recognition System</span>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('dashboard') }}" class="glass-nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="{{ url_for('students') }}" class="glass-nav-link"><i class="fas fa-users"></i> Students</a></li>
+                    <li><a href="{{ url_for('face_training') }}" class="glass-nav-link"><i class="fas fa-brain"></i> Face Training</a></li>
+                    <!-- <li><a href="#" class="glass-nav-link"><i class="fas fa-database"></i> Asset Training</a></li> -->
+                    <li><a href="{{ url_for('attendance') }}" class="glass-nav-link"><i class="fas fa-calendar-check"></i> Attendance</a></li>
+                    <li><a href="{{ url_for('recognition') }}" class="glass-nav-link"><i class="fas fa-camera"></i> Recognition</a></li>
+                    <!-- <li><a href="#" class="glass-nav-link"><i class="fas fa-cog"></i> Settings</a></li> -->
+                </ul>
+            </nav>
+            <form method="POST" action="{{ url_for('logout') }}" style="margin: 0;">
+                <button type="submit" class="glass-button danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </div>
+    </header>
+    {% endif %}
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container mt-4">
+                    {% for category, message in messages %}
+                        <div class="glass-card alert-{{ 'error' if category == 'error' else category }}" style="margin-bottom: 15px;">
+                            <i class="fas fa-{{ 'check-circle' if category == 'success' else 'info-circle' if category == 'info' else 'exclamation-triangle' }}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- JavaScript -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <!-- Futuristic Background Effects -->
+    <script src="{{ url_for('static', filename='js/futuristic-background.js') }}"></script>
+    <!-- Enhanced UI (includes particles and interactive elements) -->
+    <script src="{{ url_for('static', filename='js/enhanced-ui.js') }}"></script>
+    <!-- Auto-refresh functionality removed -->
+    {% block extra_js %}{% endblock %}
+    
+    <script>
+    // Initialize results panels for slide-in animations
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const resultsPanels = document.querySelectorAll('.results-panel');
+            resultsPanels.forEach(panel => {
+                panel.classList.add('active');
+            });
+        }, 300);
+    });
+    </script>
+</body>
+</html>

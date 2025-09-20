@@ -1,0 +1,158 @@
+/*
+ * Face Detection and Recognition Streaming Styles
+ */
+
+/* Face Detection Status Container */
+.detection-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    text-align: center;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.4);
+    margin-bottom: 15px;
+}
+
+.detection-icon {
+    font-size: 2rem;
+    color: var(--accent-blue);
+    margin-bottom: 10px;
+    animation: pulse 2s infinite;
+}
+
+.detection-status p {
+    color: var(--text-primary);
+    margin: 0 0 10px;
+    font-weight: 500;
+}
+
+/* Animated Detection Indicator */
+.detection-indicator {
+    width: 60px;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.detection-indicator:before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 0;
+    height: 100%;
+    width: 20px;
+    background: linear-gradient(to right,
+        rgba(255, 255, 255, 0),
+        rgba(var(--accent-teal-rgb), 0.8),
+        rgba(255, 255, 255, 0)
+    );
+    animation: scanning 1.5s infinite linear;
+}
+
+.detection-indicator.active {
+    background-color: rgba(var(--accent-teal-rgb), 0.3);
+}
+
+.detection-indicator.active:before {
+    background: linear-gradient(to right,
+        rgba(255, 255, 255, 0),
+        rgba(var(--accent-success-rgb), 0.9),
+        rgba(255, 255, 255, 0)
+    );
+    animation: scanning 0.8s infinite linear;
+}
+
+@keyframes scanning {
+    0% {
+        left: -20px;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+}
+
+/* Real-time Face Stream */
+.stream-container {
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(var(--accent-violet-rgb), 0.3);
+    position: relative;
+}
+
+.stream-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.stream-header h5 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-violet);
+}
+
+.stream-header .status {
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    background: rgba(var(--accent-teal-rgb), 0.2);
+    border-radius: 4px;
+    color: var(--accent-teal);
+}
+
+.stream-header .status.active {
+    background: rgba(var(--accent-success-rgb), 0.2);
+    color: var(--accent-success);
+}
+
+/* Face Detection Badge */
+.face-detected-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-success);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}

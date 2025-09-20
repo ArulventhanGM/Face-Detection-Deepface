@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Face Recognition System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="glass-card">
+        <div class="card-header" style="border-bottom: 1px solid var(--glass-border); margin-bottom: 20px; padding-bottom: 15px;">
+            <h1 class="card-title" style="font-family: 'Orbitron', sans-serif; margin: 0; color: var(--text-primary);">
+                <i class="fas fa-cog" style="color: var(--accent-teal);"></i>
+                System Settings
+            </h1>
+        </div>
+        
+        <!-- System Settings -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-sync-alt"></i>
+                            Auto-Refresh Settings
+                        </h2>
+                    </div>
+                    
+                    <form method="POST" action="{{ url_for('update_settings') }}">
+                        <div class="form-group">
+                            <label for="auto_refresh_enabled" class="form-label">Auto-Refresh Enabled</label>
+                            <div class="custom-toggle-switch">
+                                <input type="checkbox" id="auto_refresh_enabled" name="auto_refresh_enabled" 
+                                       class="toggle-input" {{ 'checked' if config.AUTO_REFRESH_ENABLED else '' }}>
+                                <label for="auto_refresh_enabled" class="toggle-label"></label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="auto_refresh_interval" class="form-label">Refresh Interval (seconds)</label>
+                            <div class="slider-container">
+                                <input type="range" id="auto_refresh_interval" name="auto_refresh_interval"
+                                       min="5" max="120" step="5" value="{{ config.AUTO_REFRESH_INTERVAL }}"
+                                       class="futuristic-slider">
+                                <output for="auto_refresh_interval" id="interval-value">{{ config.AUTO_REFRESH_INTERVAL }}</output>
+                            </div>
+                        </div>
+                        
+                        <div class="form-info">
+                            <p><i class="fas fa-info-circle"></i> Auto-refresh will automatically update dashboard, attendance, and student pages to show the latest data.</p>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Settings
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-shield-alt"></i>
+                            Security Settings
+                        </h2>
+                    </div>
+                    
+                    <form method="POST" action="{{ url_for('update_security_settings') }}">
+                        <div class="form-group">
+                            <label for="new_password" class="form-label">Change Admin Password</label>
+                            <input type="password" id="new_password" name="new_password" class="form-control" 
+                                   placeholder="Enter new password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control" 
+                                   placeholder="Confirm new password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="current_password" class="form-label">Current Password</label>
+                            <input type="password" id="current_password" name="current_password" class="form-control" 
+                                   placeholder="Enter current password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const intervalSlider = document.getElementById('auto_refresh_interval');
+    const intervalOutput = document.getElementById('interval-value');
+    
+    // Update the output value when slider changes
+    intervalSlider.addEventListener('input', function() {
+        intervalOutput.textContent = this.value;
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

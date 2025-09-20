@@ -1,0 +1,251 @@
+/* Real-time recognition styles */
+.streaming-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 12px;
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.streaming-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(56, 189, 248, 0.2);
+    color: #38bdf8;
+}
+
+.streaming-icon i {
+    font-size: 12px;
+}
+
+.streaming-status.scanning .streaming-icon {
+    animation: pulse 1.5s infinite;
+    background: rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
+}
+
+.streaming-status.detected .streaming-icon {
+    animation: pulse 0.8s infinite;
+    background: rgba(236, 72, 153, 0.3);
+    color: #ec4899;
+}
+
+.streaming-status.recognizing .streaming-icon {
+    animation: pulse 0.5s infinite;
+    background: rgba(52, 211, 153, 0.3);
+    color: #34d399;
+}
+
+.streaming-status.unknown .streaming-icon {
+    animation: pulse 1s infinite;
+    background: rgba(250, 204, 21, 0.3);
+    color: #facc15;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+/* Result cards */
+.realtime-result-container {
+    margin-bottom: 15px;
+    animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.realtime-result-card {
+    border-radius: 12px;
+    padding: 15px;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    color: #fff;
+    transition: all 0.3s ease;
+    display: flex;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.realtime-result-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border-color: rgba(56, 189, 248, 0.6);
+}
+
+.realtime-result-card.high-confidence {
+    border-color: rgba(52, 211, 153, 0.6);
+}
+
+.realtime-result-card.medium-confidence {
+    border-color: rgba(250, 204, 21, 0.6);
+}
+
+.realtime-result-card.low-confidence {
+    border-color: rgba(236, 72, 153, 0.6);
+}
+
+.result-photo {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.result-photo::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), transparent);
+    z-index: 1;
+}
+
+.result-info {
+    flex: 1;
+}
+
+.student-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.student-details {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-bottom: 8px;
+}
+
+.confidence-bar-container {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.confidence-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.high-confidence .confidence-bar {
+    background: linear-gradient(to right, #34d399, #10b981);
+}
+
+.medium-confidence .confidence-bar {
+    background: linear-gradient(to right, #facc15, #f59e0b);
+}
+
+.low-confidence .confidence-bar {
+    background: linear-gradient(to right, #ec4899, #db2777);
+}
+
+.confidence-text {
+    font-size: 11px;
+    text-align: right;
+    margin-top: 3px;
+}
+
+.timestamp {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    font-size: 10px;
+    opacity: 0.6;
+}
+
+.badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 3px 8px;
+    font-size: 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.badge-success {
+    background: rgba(52, 211, 153, 0.2);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.badge-warning {
+    background: rgba(250, 204, 21, 0.2);
+    color: #facc15;
+    border: 1px solid rgba(250, 204, 21, 0.3);
+}
+
+.badge-danger {
+    background: rgba(236, 72, 153, 0.2);
+    color: #ec4899;
+    border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.unknown-face {
+    text-align: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(250, 204, 21, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.unknown-face i {
+    font-size: 40px;
+    color: #facc15;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.unknown-face h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.unknown-face p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}

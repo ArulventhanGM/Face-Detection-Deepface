@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Asset Training Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">
+                <i class="fas fa-robot"></i> Asset Training Dashboard
+                <small class="text-muted">Train face recognition with large datasets</small>
+            </h2>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">Real Images</h5>
+                            <h2 class="mb-0">{{ "{:,}".format(stats.real_images) }}</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-user fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">AI Images</h5>
+                            <h2 class="mb-0">{{ "{:,}".format(stats.ai_images) }}</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-robot fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">Total Images</h5>
+                            <h2 class="mb-0">{{ "{:,}".format(stats.total_images) }}</h2>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-images fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5 class="card-title">Assets Folder</h5>
+                            <p class="mb-0">{{ stats.assets_folder }}</p>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-folder fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Configuration -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cogs"></i> Training Configuration
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="trainingForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="max_images">Maximum Images to Process</label>
+                                    <input type="number" class="form-control" id="max_images" name="max_images" value="100" min="1" max="1000">
+                                    <small class="form-text text-muted">Limit the number of images to process (recommended: 100-500)</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Image Types to Include</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="use_real_images" name="use_real_images" checked>
+                                <label class="form-check-label" for="use_real_images">
+                                    <i class="fas fa-user"></i> Real Human Images ({{ "{:,}".format(stats.real_images) }} available)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="use_ai_images" name="use_ai_images">
+                                <label class="form-check-label" for="use_ai_images">
+                                    <i class="fas fa-robot"></i> AI-Generated Images ({{ "{:,}".format(stats.ai_images) }} available)
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Training Information:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Training will extract face embeddings from selected images</li>
+                                <li>Processed data will be added to the existing face recognition model</li>
+                                <li>This process may take several minutes depending on the number of images</li>
+                                <li>Recommended to start with 100-200 images for testing</li>
+                            </ul>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="trainButton">
+                            <i class="fas fa-play"></i> Start Training
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="statusButton">
+                            <i class="fas fa-info"></i> Check Status
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-line"></i> Training Progress
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="trainingStatus" class="text-center">
+                        <p class="text-muted">Ready to start training</p>
+                        <i class="fas fa-play-circle fa-3x text-muted"></i>
+                    </div>
+                    
+                    <div id="progressBar" style="display: none;">
+                        <div class="progress mb-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <div id="progressText" class="text-center"></div>
+                    </div>
+                    
+                    <div id="trainingResults" style="display: none;">
+                        <h6>Training Results:</h6>
+                        <ul id="resultsList" class="list-unstyled"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Training form submission
+    $('#trainingForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        // Show progress
+        $('#progressBar').show();
+        $('#trainingStatus').hide();
+        $('#trainingResults').hide();
+        $('#trainButton').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Training...');
+        
+        // Submit training request
+        $.ajax({
+            url: '{{ url_for("asset_training.train_model") }}',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(response) {
+                $('#trainButton').prop('disabled', false).html('<i class="fas fa-play"></i> Start Training');
+                $('#progressBar').hide();
+                
+                if (response.success) {
+                    $('#trainingResults').show();
+                    $('#resultsList').html(`
+                        <li><i class="fas fa-check text-success"></i> ${response.message}</li>
+                        <li><i class="fas fa-images text-info"></i> Processed Images: ${response.processed_images}</li>
+                        <li><i class="fas fa-user text-primary"></i> Faces Extracted: ${response.faces_extracted}</li>
+                    `);
+                    
+                    // Show success message
+                    showAlert('success', 'Training completed successfully!');
+                } else {
+                    $('#trainingStatus').show();
+                    showAlert('danger', 'Training failed: ' + response.error);
+                }
+            },
+            error: function(xhr, status, error) {
+                $('#trainButton').prop('disabled', false).html('<i class="fas fa-play"></i> Start Training');
+                $('#progressBar').hide();
+                $('#trainingStatus').show();
+                showAlert('danger', 'Training request failed: ' + error);
+            }
+        });
+    });
+    
+    // Status check
+    $('#statusButton').on('click', function() {
+        $.ajax({
+            url: '{{ url_for("asset_training.training_status") }}',
+            method: 'GET',
+            success: function(response) {
+                if (response.success) {
+                    showAlert('info', `Status: ${response.total_images} total images available (${response.real_images} real, ${response.ai_images} AI-generated)`);
+                } else {
+                    showAlert('warning', 'Status check failed: ' + response.error);
+                }
+            },
+            error: function(xhr, status, error) {
+                showAlert('danger', 'Status request failed: ' + error);
+            }
+        });
+    });
+    
+    // Helper function to show alerts
+    function showAlert(type, message) {
+        const alertHtml = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        `;
+        $('.container-fluid').prepend(alertHtml);
+        
+        // Auto-dismiss after 5 seconds
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 5000);
+    }
+});
+</script>
+{% endblock %}

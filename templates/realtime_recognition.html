@@ -1,0 +1,532 @@
+{% extends "base.html" %}
+
+{% block title %}Real-time Face Recognition{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header-section">
+        <h2><i class="fas fa-video"></i> Real-time Face Recognition</h2>
+        <p>Use your camera for instant student identification</p>
+    </div>
+
+    <div class="grid grid-2">
+        <!-- Camera Feed Section -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-camera"></i> Live Camera Feed</h3>
+            </div>
+            <div class="card-body">
+                <div class="camera-container">
+                    <video id="videoElement" autoplay muted playsinline></video>
+                    <canvas id="overlayCanvas"></canvas>
+                </div>
+                
+                <div class="camera-controls mt-3">
+                    <button id="startCamera" class="btn btn-success">
+                        <i class="fas fa-play"></i> Start Camera
+                    </button>
+                    <button id="stopCamera" class="btn btn-danger" disabled>
+                        <i class="fas fa-stop"></i> Stop Camera
+                    </button>
+                    <button id="toggleRecognition" class="btn btn-primary" disabled>
+                        <i class="fas fa-search"></i> Start Recognition
+                    </button>
+                </div>
+                
+                <div class="camera-status mt-2">
+                    <span id="cameraStatus" class="badge badge-secondary">Camera Stopped</span>
+                    <span id="recognitionStatus" class="badge badge-secondary">Recognition Off</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recognition Results Section -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-users"></i> Recognition Results</h3>
+            </div>
+            <div class="card-body">
+                <div id="realtimeResults" class="realtime-results">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-user-clock" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Start camera and recognition to see results</p>
+                    </div>
+                </div>
+                
+                <div class="recognition-stats mt-3">
+                    <div class="stat-item">
+                        <span class="stat-label">Faces Detected:</span>
+                        <span id="facesDetected" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Students Recognized:</span>
+                        <span id="studentsRecognized" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Processing Time:</span>
+                        <span id="processingTime" class="stat-value">0ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+        </div>
+        <div class="card-body">
+            <div class="quick-actions">
+                <button id="markAttendanceBtn" class="btn btn-success" disabled>
+                    <i class="fas fa-check"></i> Mark Attendance for Recognized Students
+                </button>
+                <button id="clearResults" class="btn btn-secondary">
+                    <i class="fas fa-trash"></i> Clear Results
+                </button>
+                <button id="exportResults" class="btn btn-info" disabled>
+                    <i class="fas fa-download"></i> Export Recognition Log
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+class RealtimeRecognition {
+    constructor() {
+        this.video = document.getElementById('videoElement');
+        this.canvas = document.getElementById('overlayCanvas');
+        this.ctx = this.canvas.getContext('2d');
+        this.stream = null;
+        this.recognitionActive = false;
+        this.recognitionInterval = null;
+        this.recognizedStudents = new Set();
+        this.recognitionLog = [];
+        
+        this.initializeElements();
+        this.setupEventListeners();
+    }
+    
+    initializeElements() {
+        this.startBtn = document.getElementById('startCamera');
+        this.stopBtn = document.getElementById('stopCamera');
+        this.toggleBtn = document.getElementById('toggleRecognition');
+        this.cameraStatus = document.getElementById('cameraStatus');
+        this.recognitionStatus = document.getElementById('recognitionStatus');
+        this.resultsContainer = document.getElementById('realtimeResults');
+        this.facesDetected = document.getElementById('facesDetected');
+        this.studentsRecognized = document.getElementById('studentsRecognized');
+        this.processingTime = document.getElementById('processingTime');
+        this.markAttendanceBtn = document.getElementById('markAttendanceBtn');
+        this.clearResultsBtn = document.getElementById('clearResults');
+        this.exportResultsBtn = document.getElementById('exportResults');
+    }
+    
+    setupEventListeners() {
+        this.startBtn.addEventListener('click', () => this.startCamera());
+        this.stopBtn.addEventListener('click', () => this.stopCamera());
+        this.toggleBtn.addEventListener('click', () => this.toggleRecognition());
+        this.clearResultsBtn.addEventListener('click', () => this.clearResults());
+        this.markAttendanceBtn.addEventListener('click', () => this.markAttendanceForAll());
+        this.exportResultsBtn.addEventListener('click', () => this.exportResults());
+    }
+    
+    async startCamera() {
+        try {
+            this.stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    width: 640, 
+                    height: 480,
+                    facingMode: 'user'
+                } 
+            });
+            
+            this.video.srcObject = this.stream;
+            this.video.onloadedmetadata = () => {
+                this.canvas.width = this.video.videoWidth;
+                this.canvas.height = this.video.videoHeight;
+            };
+            
+            this.startBtn.disabled = true;
+            this.stopBtn.disabled = false;
+            this.toggleBtn.disabled = false;
+            
+            this.updateCameraStatus('Camera Active', 'success');
+            
+        } catch (error) {
+            console.error('Error accessing camera:', error);
+            app.showAlert('Could not access camera. Please check permissions.', 'error');
+        }
+    }
+    
+    stopCamera() {
+        if (this.stream) {
+            this.stream.getTracks().forEach(track => track.stop());
+            this.stream = null;
+        }
+        
+        this.video.srcObject = null;
+        this.stopRecognition();
+        
+        this.startBtn.disabled = false;
+        this.stopBtn.disabled = true;
+        this.toggleBtn.disabled = true;
+        
+        this.updateCameraStatus('Camera Stopped', 'secondary');
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    
+    toggleRecognition() {
+        if (this.recognitionActive) {
+            this.stopRecognition();
+        } else {
+            this.startRecognition();
+        }
+    }
+    
+    startRecognition() {
+        this.recognitionActive = true;
+        this.toggleBtn.innerHTML = '<i class="fas fa-pause"></i> Stop Recognition';
+        this.updateRecognitionStatus('Recognition Active', 'success');
+        
+        // Start recognition loop
+        this.recognitionInterval = setInterval(() => {
+            this.processFrame();
+        }, 1000); // Process every second
+    }
+    
+    stopRecognition() {
+        this.recognitionActive = false;
+        this.toggleBtn.innerHTML = '<i class="fas fa-search"></i> Start Recognition';
+        this.updateRecognitionStatus('Recognition Off', 'secondary');
+        
+        if (this.recognitionInterval) {
+            clearInterval(this.recognitionInterval);
+            this.recognitionInterval = null;
+        }
+        
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    
+    async processFrame() {
+        if (!this.recognitionActive || !this.video.videoWidth) return;
+        
+        const startTime = performance.now();
+        
+        try {
+            // Capture frame from video
+            const canvas = document.createElement('canvas');
+            canvas.width = this.video.videoWidth;
+            canvas.height = this.video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(this.video, 0, 0);
+            
+            // Convert to base64
+            const imageData = canvas.toDataURL('image/jpeg', 0.8);
+            
+            // Send for recognition
+            const response = await fetch('/recognize_realtime', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ image: imageData })
+            });
+            
+            const result = await response.json();
+            const endTime = performance.now();
+            
+            this.processingTime.textContent = `${Math.round(endTime - startTime)}ms`;
+            
+            if (result.success) {
+                this.displayResults(result.data || []);
+                this.drawFaceBoxes(result.face_locations || []);
+            }
+            
+        } catch (error) {
+            console.error('Error processing frame:', error);
+        }
+    }
+    
+    displayResults(recognizedFaces) {
+        if (recognizedFaces.length === 0) {
+            this.facesDetected.textContent = '0';
+            return;
+        }
+        
+        this.facesDetected.textContent = recognizedFaces.length;
+        
+        // Update recognized students
+        recognizedFaces.forEach(face => {
+            if (!this.recognizedStudents.has(face.student_id)) {
+                this.recognizedStudents.add(face.student_id);
+                this.recognitionLog.push({
+                    ...face,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        });
+        
+        this.studentsRecognized.textContent = this.recognizedStudents.size;
+        
+        // Display current results
+        this.resultsContainer.innerHTML = '';
+        recognizedFaces.forEach(face => {
+            const resultItem = this.createResultItem(face);
+            this.resultsContainer.appendChild(resultItem);
+        });
+        
+        // Enable action buttons
+        this.markAttendanceBtn.disabled = this.recognizedStudents.size === 0;
+        this.exportResultsBtn.disabled = this.recognitionLog.length === 0;
+    }
+    
+    createResultItem(face) {
+        const item = document.createElement('div');
+        item.className = 'realtime-result-item';
+        
+        const confidence = Math.round(face.confidence * 100);
+        const confidenceClass = confidence > 80 ? 'success' : confidence > 60 ? 'warning' : 'danger';
+        
+        item.innerHTML = `
+            <div class="result-header">
+                <div class="student-info">
+                    <h4>${face.name}</h4>
+                    <p>${face.student_id} • ${face.department}</p>
+                </div>
+                <div class="confidence-badge">
+                    <span class="badge badge-${confidenceClass}">${confidence}%</span>
+                </div>
+            </div>
+            <div class="result-details">
+                <small class="text-muted">Year ${face.year} • ${face.email}</small>
+            </div>
+        `;
+        
+        return item;
+    }
+    
+    drawFaceBoxes(faceLocations) {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        if (!faceLocations || faceLocations.length === 0) return;
+        
+        this.ctx.strokeStyle = '#00ff00';
+        this.ctx.lineWidth = 2;
+        
+        faceLocations.forEach(location => {
+            const [left, top, right, bottom] = location;
+            this.ctx.strokeRect(left, top, right - left, bottom - top);
+        });
+    }
+    
+    updateCameraStatus(text, type) {
+        this.cameraStatus.textContent = text;
+        this.cameraStatus.className = `badge badge-${type}`;
+    }
+    
+    updateRecognitionStatus(text, type) {
+        this.recognitionStatus.textContent = text;
+        this.recognitionStatus.className = `badge badge-${type}`;
+    }
+    
+    clearResults() {
+        this.recognizedStudents.clear();
+        this.recognitionLog = [];
+        this.resultsContainer.innerHTML = `
+            <div class="text-center text-muted">
+                <i class="fas fa-user-clock" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>Start camera and recognition to see results</p>
+            </div>
+        `;
+        this.studentsRecognized.textContent = '0';
+        this.facesDetected.textContent = '0';
+        this.markAttendanceBtn.disabled = true;
+        this.exportResultsBtn.disabled = true;
+    }
+    
+    async markAttendanceForAll() {
+        if (this.recognizedStudents.size === 0) return;
+        
+        try {
+            const studentIds = Array.from(this.recognizedStudents);
+            const response = await fetch('/mark_bulk_attendance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    student_ids: studentIds,
+                    method: 'realtime_camera'
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                app.showAlert(`Attendance marked for ${result.marked_count} students`, 'success');
+            } else {
+                app.showAlert('Failed to mark attendance', 'error');
+            }
+            
+        } catch (error) {
+            console.error('Error marking attendance:', error);
+            app.showAlert('Error marking attendance', 'error');
+        }
+    }
+    
+    exportResults() {
+        if (this.recognitionLog.length === 0) return;
+        
+        const csvContent = this.generateCSV();
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `realtime_recognition_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+    
+    generateCSV() {
+        const headers = ['Timestamp', 'Student ID', 'Name', 'Department', 'Year', 'Confidence'];
+        const rows = this.recognitionLog.map(entry => [
+            entry.timestamp,
+            entry.student_id,
+            entry.name,
+            entry.department,
+            entry.year,
+            Math.round(entry.confidence * 100) + '%'
+        ]);
+        
+        return [headers, ...rows].map(row => row.join(',')).join('\n');
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    window.realtimeRecognition = new RealtimeRecognition();
+});
+</script>
+
+<style>
+.camera-container {
+    position: relative;
+    display: inline-block;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#videoElement {
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    display: block;
+}
+
+#overlayCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.camera-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.camera-status {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.realtime-results {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.realtime-result-item {
+    background: var(--accent-color);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.student-info h4 {
+    margin: 0 0 4px 0;
+    color: var(--primary-color);
+}
+
+.student-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.confidence-badge {
+    flex-shrink: 0;
+}
+
+.recognition-stats {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.stat-item:last-child {
+    margin-bottom: 0;
+}
+
+.stat-label {
+    font-weight: 500;
+    color: #666;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.quick-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+    
+    .camera-controls {
+        justify-content: center;
+    }
+    
+    .quick-actions {
+        justify-content: center;
+    }
+}
+</style>
+{% endblock %}

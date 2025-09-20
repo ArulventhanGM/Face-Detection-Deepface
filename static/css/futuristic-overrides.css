@@ -1,0 +1,259 @@
+/* Additional CSS overrides to enhance glassmorphism effects */
+
+/* Base styles overrides */
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Exo 2', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Enhanced button effects */
+.btn {
+    background: var(--glass-bg-lighter);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    transition: var(--transition-normal);
+}
+
+.btn:hover {
+    transform: var(--button-hover-transform);
+    box-shadow: var(--button-shadow);
+}
+
+/* Enhanced card effects */
+.card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    color: var(--text-primary);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-header {
+    border-bottom: 1px solid var(--glass-border);
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.card-title {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--text-primary);
+}
+
+/* Enhanced form inputs */
+input, textarea, select {
+    background: var(--glass-bg-darker);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    border-radius: 6px;
+    padding: 10px 15px;
+    transition: var(--transition-normal);
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 0 2px var(--accent-teal-glow);
+    outline: none;
+}
+
+/* Camera container enhancements */
+.camera-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.camera-preview {
+    width: 100%;
+    display: block;
+    background-color: var(--bg-darker);
+    min-height: 300px;
+}
+
+/* Recognition results styling */
+.recognition-results {
+    min-height: 200px;
+    padding: 15px;
+    background: var(--glass-bg-darker);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.recognition-result-item {
+    background: var(--glass-bg-lighter);
+    border-left: 3px solid var(--accent-teal);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    animation: slide-in-right 0.3s ease forwards;
+}
+
+@keyframes slide-in-right {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Style alerts */
+.alert {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: none;
+    border-left: 3px solid transparent;
+    border-radius: 8px;
+    color: var(--text-primary);
+    padding: 15px;
+}
+
+.alert-info {
+    border-left-color: var(--accent-teal);
+}
+
+.alert-success {
+    border-left-color: #2ecc71;
+}
+
+.alert-warning {
+    border-left-color: #f39c12;
+}
+
+.alert-error, .alert-danger {
+    border-left-color: var(--accent-crimson);
+}
+
+/* Enhanced animation for particle field */
+@keyframes float {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-10px) translateX(5px);
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+    }
+}
+
+.floating-sphere {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+    filter: blur(1px);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: float 10s ease-in-out infinite;
+}
+
+/* Fix for Bootstrap table styling */
+.table {
+    color: var(--text-primary);
+    background: var(--glass-bg);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table th {
+    background: var(--glass-bg-darker);
+    color: var(--text-primary);
+    border-color: var(--glass-border);
+}
+
+.table td {
+    border-color: var(--glass-border);
+}
+
+/* Badge styling */
+.badge {
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    padding: 5px 10px;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 400;
+    border-radius: 4px;
+}
+
+.badge-success {
+    background-color: rgba(46, 204, 113, 0.3);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.2);
+}
+
+.badge-warning {
+    background-color: rgba(243, 156, 18, 0.3);
+    color: #f39c12;
+    border: 1px solid rgba(243, 156, 18, 0.2);
+}
+
+.badge-danger {
+    background-color: rgba(230, 28, 81, 0.3);
+    color: var(--accent-crimson);
+    border: 1px solid rgba(230, 28, 81, 0.2);
+}
+
+/* Pulsing loader animation */
+.loader {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    animation: loader-scale 1s infinite ease-in-out;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px var(--accent-teal-glow);
+}
+
+@keyframes loader-scale {
+    0% { 
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% { 
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+/* Grid patterns */
+.grid-pattern {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+    opacity: 0.3;
+    background-image: 
+        linear-gradient(rgba(20, 20, 40, 0.5) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(20, 20, 40, 0.5) 1px, transparent 1px);
+    background-size: 30px 30px;
+    background-position: center center;
+}

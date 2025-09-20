@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Face Recognition System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="glass-card">
+        <div class="card-header" style="border-bottom: 1px solid var(--glass-border); margin-bottom: 20px; padding-bottom: 15px;">
+            <h1 class="card-title" style="font-family: 'Orbitron', sans-serif; margin: 0; color: var(--text-primary);">
+                <i class="fas fa-cog" style="color: var(--accent-teal);"></i>
+                System Settings
+            </h1>
+        </div>
+        
+        <!-- System Settings -->
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-shield-alt"></i>
+                            Security Settings
+                        </h2>
+                    </div>
+                    
+                    <form method="POST" action="{{ url_for('update_security_settings') }}">
+                        <div class="form-group">
+                            <label for="new_password" class="form-label">Change Admin Password</label>
+                            <input type="password" id="new_password" name="new_password" class="form-control" 
+                                   placeholder="Enter new password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control" 
+                                   placeholder="Confirm new password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="current_password" class="form-label">Current Password</label>
+                            <input type="password" id="current_password" name="current_password" class="form-control" 
+                                   placeholder="Enter current password" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-refresh slider code removed
+});
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,122 @@
+/* 3D Card Animation Effects */
+.login-card .card-title,
+.login-card .card-subtitle,
+.login-card .input-container,
+.login-card .login-button,
+.login-card .face-recognition-button {
+    transform: translateZ(0);
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.login-card:hover .card-title {
+    transform: translateZ(40px);
+    text-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+}
+
+.login-card:hover .card-subtitle {
+    transform: translateZ(30px);
+}
+
+.login-card:hover .input-container {
+    transform: translateZ(20px);
+}
+
+.login-card:hover .login-button {
+    transform: translateZ(25px);
+}
+
+.login-card:hover .face-recognition-button {
+    transform: translateZ(15px);
+}
+
+/* Enhanced glassmorphism for the card */
+.login-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.login-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 40%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: transform 0.6s ease;
+    z-index: 2;
+}
+
+.login-card:hover::after {
+    transform: translateY(0);
+}
+
+/* Particle animation on card hover */
+@keyframes float-particle {
+    0%, 100% {
+        transform: translateY(0) translateX(0) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    90% {
+        opacity: 0.1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(var(--tx)) scale(0);
+    }
+}
+
+.login-card:hover::before {
+    animation: pulse-subtle 6s infinite alternate, particle-effect 8s infinite linear;
+}
+
+@keyframes particle-effect {
+    0% {
+        background-position: 0% 0%;
+        box-shadow: 
+            0 15px 40px rgba(0, 0, 0, 0.2),
+            0 0 30px rgba(255, 0, 128, 0.2),
+            0 0 20px rgba(37, 117, 252, 0.3) inset;
+    }
+    50% {
+        background-position: 100% 0%;
+        box-shadow: 
+            0 15px 40px rgba(0, 0, 0, 0.2),
+            0 0 40px rgba(37, 117, 252, 0.3),
+            0 0 20px rgba(255, 0, 128, 0.2) inset;
+    }
+    100% {
+        background-position: 0% 0%;
+        box-shadow: 
+            0 15px 40px rgba(0, 0, 0, 0.2),
+            0 0 30px rgba(255, 0, 128, 0.2),
+            0 0 20px rgba(37, 117, 252, 0.3) inset;
+    }
+}
+
+/* Improved card tilt effect */
+.login-card {
+    will-change: transform;
+}
+
+/* Dynamic shadow effect */
+.login-card {
+    --shadow-color: rgba(37, 117, 252, 0.2);
+    transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), --shadow-color 0.3s ease;
+}
+
+.login-card:hover {
+    --shadow-color: rgba(255, 0, 128, 0.15);
+}

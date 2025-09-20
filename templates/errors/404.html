@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - Face Recognition System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card text-center">
+        <div style="padding: 4rem 2rem;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 5rem; color: var(--warning-color); margin-bottom: 2rem;"></i>
+            <h1 style="font-size: 4rem; color: var(--text-color); margin-bottom: 1rem;">404</h1>
+            <h2 style="color: var(--text-color); margin-bottom: 2rem;">Page Not Found</h2>
+            <p style="font-size: 1.2rem; color: #666; margin-bottom: 3rem;">
+                The page you are looking for doesn't exist or has been moved.
+            </p>
+            <div class="d-flex gap-2 justify-center">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Go to Dashboard
+                </a>
+                <a href="javascript:history.back()" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Go Back
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

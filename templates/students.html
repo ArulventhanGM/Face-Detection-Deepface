@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+
+{% block title %}Students - Face Recognition System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">
+                <i class="fas fa-users"></i>
+                Student Management
+            </h1>
+            <a href="{{ url_for('add_student') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add Student
+            </a>
+        </div>
+        
+        {% if students %}
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Avatar</th>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Face Data</th>
+                        <th>Registration Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>
+                            <img src="{{ url_for('student_photo', student_id=student.student_id) }}" 
+                                 alt="{{ student.name }}" 
+                                 class="student-avatar"
+                                 onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHJ4PSIyMCIgZmlsbD0iIzZCNzI4MCIvPjxwYXRoIGQ9Ik0yMCAyMEM5IDIwIDkgMTEgMjAgMTFTMzEgMjAgMjAgMjBaIiBmaWxsPSIjRkZGIi8+PHBhdGggZD0iTTEyIDMwQzEyIDI1LjU4NTggMTUuNTg1OCAyMiAyMCAyMlMyOCAyNS41ODU4IDI4IDMwSDE2WiIgZmlsbD0iI0ZGRiIvPjwvc3ZnPg=='; this.onerror=null;"
+                                 loading="lazy">
+                        </td>
+                        <td>{{ student.student_id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.department }}</td>
+                        <td>{{ student.year }}</td>
+                        <td>
+                            {% if student.student_id in face_data %}
+                                <span class="badge badge-success">
+                                    <i class="fas fa-check"></i> Available
+                                </span>
+                            {% else %}
+                                <span class="badge badge-warning">
+                                    <i class="fas fa-exclamation"></i> Missing
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>{{ student.registration_date }}</td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <a href="{{ url_for('edit_student', student_id=student.student_id) }}" 
+                                   class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ url_for('delete_student', student_id=student.student_id) }}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete {{ student.name }}? This action cannot be undone.')">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center">
+            <i class="fas fa-users" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+            <h3>No Students Registered</h3>
+            <p>Start by adding your first student to the system.</p>
+            <a href="{{ url_for('add_student') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add First Student
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Statistics Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-chart-pie"></i>
+                Student Statistics
+            </h2>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">{{ students|length }}</span>
+                <span class="stat-label">Total Students</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ students_with_face_data }}</span>
+                <span class="stat-label">With Face Data</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ students_by_department|length }}</span>
+                <span class="stat-label">Departments</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">{{ students_by_year|length }}</span>
+                <span class="stat-label">Academic Years</span>
+            </div>
+        </div>
+        
+        {% if students_by_department %}
+        <div class="grid grid-2 mt-3">
+            <div>
+                <h4>By Department</h4>
+                <ul class="list-group">
+                    {% for dept, count in students_by_department.items() %}
+                    <li class="list-group-item d-flex justify-between align-center">
+                        <span>{{ dept }}</span>
+                        <span class="badge badge-primary">{{ count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div>
+                <h4>By Year</h4>
+                <ul class="list-group">
+                    {% for year, count in students_by_year.items() %}
+                    <li class="list-group-item d-flex justify-between align-center">
+                        <span>Year {{ year }}</span>
+                        <span class="badge badge-success">{{ count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.list-group {
+    list-style: none;
+    padding: 0;
+}
+
+.list-group-item {
+    padding: 0.75rem;
+    background: var(--accent-color);
+    margin-bottom: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid #ddd;
+}
+
+.student-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e3e6f0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.student-avatar:hover {
+    transform: scale(1.1);
+    border-color: #007bff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Ensure the avatar column has proper width */
+.table th:first-child,
+.table td:first-child {
+    width: 60px;
+    text-align: center;
+}
+</style>
+{% endblock %}

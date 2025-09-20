@@ -1,0 +1,441 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit' if student else 'Add' }} Student - Face Recognition System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">
+                <i class="fas fa-user-{{ 'edit' if student else 'plus' }}"></i>
+                {{ 'Edit' if student else 'Add New' }} Student
+            </h1>
+            <a href="{{ url_for('students') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Students
+            </a>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            <div class="grid grid-2">
+                <div>
+                    <div class="form-group">
+                        <label for="student_id" class="form-label">
+                            <i class="fas fa-id-card"></i> Student ID *
+                        </label>
+                        <input type="text" 
+                               id="student_id" 
+                               name="student_id" 
+                               class="form-control" 
+                               value="{{ student.student_id if student else '' }}"
+                               {{ 'readonly' if student else '' }}
+                               required>
+                        <small class="form-text">Alphanumeric, 3-20 characters</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-user"></i> Full Name *
+                        </label>
+                        <input type="text" 
+                               id="name" 
+                               name="name" 
+                               class="form-control" 
+                               value="{{ student.name if student else '' }}"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope"></i> Email Address *
+                        </label>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               class="form-control" 
+                               value="{{ student.email if student else '' }}"
+                               required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department" class="form-label">
+                            <i class="fas fa-building"></i> Department *
+                        </label>
+                        <select id="department" name="department" class="form-control" required>
+                            <option value="">Select Department</option>
+                            <option value="Automobile Engineering" {{ 'selected' if student and student.department == 'Automobile Engineering' else '' }}>Automobile Engineering</option>
+                            <option value="Civil Engineering" {{ 'selected' if student and student.department == 'Civil Engineering' else '' }}>Civil Engineering</option>
+                            <option value="Mechanical Engineering" {{ 'selected' if student and student.department == 'Mechanical Engineering' else '' }}>Mechanical Engineering</option>
+                            <option value="Mechatronics Engineering" {{ 'selected' if student and student.department == 'Mechatronics Engineering' else '' }}>Mechatronics Engineering</option>
+                            <option value="Electronics and Instrumentation Engineering" {{ 'selected' if student and student.department == 'Electronics and Instrumentation Engineering' else '' }}>Electronics and Instrumentation Engineering</option>
+                            <option value="Electrical and Electronics Engineering" {{ 'selected' if student and student.department == 'Electrical and Electronics Engineering' else '' }}>Electrical and Electronics Engineering</option>
+                            <option value="Electronics and Communication Engineering" {{ 'selected' if student and student.department == 'Electronics and Communication Engineering' else '' }}>Electronics and Communication Engineering</option>
+                            <option value="Computer Science Engineering" {{ 'selected' if student and student.department == 'Computer Science Engineering' else '' }}>Computer Science Engineering</option>
+                            <option value="Information Technology" {{ 'selected' if student and student.department == 'Information Technology' else '' }}>Information Technology</option>
+                            <option value="Artificial Intelligence and Data Science" {{ 'selected' if student and student.department == 'Artificial Intelligence and Data Science' else '' }}>Artificial Intelligence and Data Science</option>
+                            <option value="Artificial Intelligence and Machine Learning" {{ 'selected' if student and student.department == 'Artificial Intelligence and Machine Learning' else '' }}>Artificial Intelligence and Machine Learning</option>
+                            <option value="Computer Science and Design" {{ 'selected' if student and student.department == 'Computer Science and Design' else '' }}>Computer Science and Design</option>
+                            <option value="Chemical Engineering" {{ 'selected' if student and student.department == 'Chemical Engineering' else '' }}>Chemical Engineering</option>
+                            <option value="Food Technology" {{ 'selected' if student and student.department == 'Food Technology' else '' }}>Food Technology</option>
+                            <option value="Architecture" {{ 'selected' if student and student.department == 'Architecture' else '' }}>Architecture</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="year" class="form-label">
+                            <i class="fas fa-calendar"></i> Academic Year *
+                        </label>
+                        <select id="year" name="year" class="form-control" required>
+                            <option value="">Select Year</option>
+                            <option value="1" {{ 'selected' if student and student.year == '1' else '' }}>1st Year</option>
+                            <option value="2" {{ 'selected' if student and student.year == '2' else '' }}>2nd Year</option>
+                            <option value="3" {{ 'selected' if student and student.year == '3' else '' }}>3rd Year</option>
+                            <option value="4" {{ 'selected' if student and student.year == '4' else '' }}>4th Year</option>
+                            <option value="Graduate" {{ 'selected' if student and student.year == 'Graduate' else '' }}>Graduate</option>
+                            <option value="Postgraduate" {{ 'selected' if student and student.year == 'Postgraduate' else '' }}>Postgraduate</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="form-group">
+                        <label for="face_image" class="form-label">
+                            <i class="fas fa-camera"></i> Face Photo
+                            {% if not student %} *{% endif %}
+                        </label>
+                        <div class="file-input-wrapper" onclick="document.getElementById('face_image').click();">
+                            <input type="file" 
+                                   id="face_image" 
+                                   name="face_image" 
+                                   accept="image/*"
+                                   style="display: none;"
+                                   {% if not student %}required{% endif %}>
+                            <div class="upload-content">
+                                <i class="fas fa-upload"></i>
+                                <span>{{ 'Update face photo' if student else 'Upload clear face photo' }}</span>
+                            </div>
+                        </div>
+                        <div id="file-name-display" class="file-name-display" style="display: none;">
+                            <i class="fas fa-file-image"></i>
+                            <span id="file-name-text"></span>
+                            <button type="button" id="remove-file" class="btn btn-sm btn-secondary">
+                                <i class="fas fa-times"></i> Remove
+                            </button>
+                        </div>
+                        <small class="form-text">
+                            Upload a clear, front-facing photo for face recognition.
+                            Supported formats: JPG, PNG. Max size: 16MB.
+                        </small>
+                    </div>
+                    
+                    {% if student and has_face_data %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        Face data is already registered for this student.
+                        Upload a new photo to update the face data.
+                    </div>
+                    {% endif %}
+                    
+                    {% if student %}
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-image"></i> Current Photo
+                        </label>
+                        <div class="current-photo-container">
+                            <img src="{{ url_for('student_photo', student_id=student.student_id) }}" 
+                                 alt="{{ student.name }}" 
+                                 class="current-student-photo"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="no-photo-message" style="display: none;">
+                                <i class="fas fa-user-circle"></i>
+                                <span>No photo available</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="form-group">
+                        <h4>Face Recognition Guidelines</h4>
+                        <ul style="list-style-type: disc; padding-left: 2rem;">
+                            <li>Use a clear, high-resolution photo</li>
+                            <li>Ensure good lighting conditions</li>
+                            <li>Face should be front-facing</li>
+                            <li>Remove glasses if possible</li>
+                            <li>Neutral expression works best</li>
+                            <li>No other people in the photo</li>
+                            <li>Plain background preferred</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" id="submitBtn" class="btn btn-success">
+                    <i class="fas fa-save"></i>
+                    {{ 'Update' if student else 'Register' }} Student
+                </button>
+                <a href="{{ url_for('students') }}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+    
+    {% if student %}
+    <!-- Student Information Card -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-info-circle"></i>
+                Current Information
+            </h2>
+        </div>
+        
+        <div class="grid grid-2">
+            <div>
+                <h4>Personal Details</h4>
+                <table class="table">
+                    <tr>
+                        <td><strong>Student ID:</strong></td>
+                        <td>{{ student.student_id }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Name:</strong></td>
+                        <td>{{ student.name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email:</strong></td>
+                        <td>{{ student.email }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Department:</strong></td>
+                        <td>{{ student.department }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Year:</strong></td>
+                        <td>{{ student.year }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registered:</strong></td>
+                        <td>{{ student.registration_date }}</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div>
+                <h4>Face Recognition Status</h4>
+                {% if has_face_data %}
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Face data registered</strong><br>
+                    This student can be recognized by the system.
+                </div>
+                {% else %}
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>No face data</strong><br>
+                    Upload a face photo to enable recognition.
+                </div>
+                {% endif %}
+                
+                <h4 class="mt-3">Recent Attendance</h4>
+                {% if recent_attendance %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in recent_attendance %}
+                        <tr>
+                            <td>{{ record.date }}</td>
+                            <td>{{ record.time }}</td>
+                            <td>
+                                <span class="badge badge-{{ 'success' if record.method == 'camera' else 'warning' }}">
+                                    {{ record.method.title() }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-muted">No attendance records found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('face_image');
+    const fileNameDisplay = document.getElementById('file-name-display');
+    const fileNameText = document.getElementById('file-name-text');
+    const removeFileBtn = document.getElementById('remove-file');
+    const fileInputWrapper = document.querySelector('.file-input-wrapper');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Handle file selection
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        
+        if (file) {
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Please select a valid image file (JPEG, PNG, GIF, BMP)');
+                fileInput.value = '';
+                return;
+            }
+            
+            // Validate file size (16MB = 16 * 1024 * 1024 bytes)
+            if (file.size > 16 * 1024 * 1024) {
+                alert('File size must be less than 16MB');
+                fileInput.value = '';
+                return;
+            }
+            
+            // Show file name
+            fileNameText.textContent = file.name;
+            fileNameDisplay.style.display = 'flex';
+            fileInputWrapper.style.display = 'none';
+            
+            // Update button text to show ready state
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> {{ "Update" if student else "Register" }} Student (Photo Ready)';
+            submitBtn.classList.add('btn-success');
+            submitBtn.classList.remove('btn-primary');
+        }
+    });
+    
+    // Handle file removal
+    removeFileBtn.addEventListener('click', function() {
+        fileInput.value = '';
+        fileNameDisplay.style.display = 'none';
+        fileInputWrapper.style.display = 'flex';
+        
+        // Reset button text
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> {{ "Update" if student else "Register" }} Student';
+        submitBtn.classList.remove('btn-success');
+        submitBtn.classList.add('btn-primary');
+    });
+    
+    // Form validation before submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+        // Check if we're in edit mode by looking for student data
+        const isEditMode = document.querySelector('input[name="student_id"]') !== null;
+        
+        if (!isEditMode && !fileInput.files.length) {
+            e.preventDefault();
+            alert('Please upload a face photo for the new student.');
+            return false;
+        }
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        submitBtn.disabled = true;
+    });
+});
+</script>
+
+<style>
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.file-input-wrapper:hover {
+    border-color: var(--primary-color);
+    background: #f0f8ff;
+}
+
+.upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.upload-content i {
+    font-size: 2rem;
+    color: #666;
+}
+
+.upload-content span {
+    font-weight: 500;
+    color: #666;
+}
+
+.file-name-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: #e8f5e8;
+    border: 1px solid #28a745;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.file-name-display i {
+    color: #28a745;
+}
+
+.form-text {
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.current-photo-container {
+    margin-top: 0.5rem;
+}
+
+.current-student-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    display: block;
+}
+
+.no-photo-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 2rem;
+    background: #f8f9fa;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    color: #666;
+}
+
+.no-photo-message i {
+    font-size: 3rem;
+}
+
+.table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+</style>
+{% endblock %}

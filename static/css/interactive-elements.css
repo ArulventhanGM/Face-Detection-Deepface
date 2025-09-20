@@ -1,0 +1,67 @@
+/* Interactive Elements with Smooth Transitions */
+
+/* Interactive form elements */
+.form-control, .input-group {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-control:focus {
+    box-shadow: 0 0 15px rgba(0, 185, 199, 0.3) !important;
+    border-color: rgba(0, 185, 199, 0.5) !important;
+}
+
+/* Enhanced password toggle */
+.password-toggle {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: rgba(0, 185, 199, 1);
+    transform: scale(1.1);
+}
+
+.password-toggle:focus {
+    outline: none;
+}
+
+/* Rotate icon on toggle */
+.password-toggle i {
+    transition: all 0.3s ease;
+}
+
+.password-toggle.active i {
+    transform: rotate(180deg);
+}
+
+/* Custom checkbox with animation */
+.custom-control-label::before {
+    transition: all 0.3s ease;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: rgba(0, 185, 199, 0.8) !important;
+    border-color: rgba(0, 185, 199, 0.8) !important;
+    box-shadow: 0 0 10px rgba(0, 185, 199, 0.4) !important;
+}
+
+/* Smooth dropdown transitions */
+.dropdown-menu {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(8, 8, 15, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dropdown-item {
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 185, 199, 0.1) !important;
+    color: rgba(0, 185, 199, 1) !important;
+}

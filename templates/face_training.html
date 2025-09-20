@@ -1,0 +1,1493 @@
+{% extends "base.html" %}
+
+{% block title %}Face Training - Face Recognition System{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Training Overview Card -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h1 class="card-title">
+                <i class="fas fa-brain"></i>
+                Face Training System
+            </h1>
+            <p class="mb-0">Train the system to recognize specific individuals by uploading multiple photos</p>
+        </div>
+        
+        <div class="grid grid-3">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalTrainedFaces">{{ trained_faces_count }}</h3>
+                    <p>Trained Faces</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="totalTrainingImages">{{ total_training_images }}</h3>
+                    <p>Training Images</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="averageAccuracy">{{ average_accuracy }}%</h3>
+                    <p>Avg. Accuracy</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Options -->
+    <div class="grid grid-2 mb-4">
+        <!-- Quick Training for Existing Students -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-user-graduate"></i>
+                    Train Existing Student
+                </h2>
+                <p class="mb-0">Add training photos for students already in the system</p>
+            </div>
+            
+            <form id="existingStudentTrainingForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="existing_student_id" class="form-label">
+                        <i class="fas fa-id-card"></i> Select Student
+                    </label>
+                    <select id="existing_student_id" name="student_id" class="form-control" required>
+                        <option value="">Choose a student...</option>
+                        {% for student in students %}
+                        <option value="{{ student.student_id }}" data-name="{{ student.name }}">
+                            {{ student.student_id }} - {{ student.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="existing_training_images" class="form-label">
+                        <i class="fas fa-images"></i> Training Images
+                    </label>
+                    <div class="file-input-wrapper" onclick="document.getElementById('existing_training_images').click();">
+                        <input type="file" 
+                               id="existing_training_images" 
+                               name="training_images" 
+                               accept="image/*"
+                               multiple
+                               style="display: none;">
+                        <div class="upload-content">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload multiple training photos</span>
+                        </div>
+                    </div>
+                    <div id="existing-files-preview" class="files-preview"></div>
+                    <small class="form-text">
+                        Upload 3-10 photos from different angles and lighting conditions.
+                        Supported formats: JPG, PNG. Max size per file: 16MB.
+                    </small>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-brain"></i> Start Training
+                </button>
+            </form>
+        </div>
+
+        <!-- New Person Training -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">
+                    <i class="fas fa-user-plus"></i>
+                    Train New Person
+                </h2>
+                <p class="mb-0">Register and train a new person simultaneously</p>
+            </div>
+            
+            <form id="newPersonTrainingForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="new_student_id" class="form-label">
+                        <i class="fas fa-id-card"></i> Student ID
+                    </label>
+                    <input type="text" 
+                           id="new_student_id" 
+                           name="student_id" 
+                           class="form-control" 
+                           placeholder="Enter student ID"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="new_student_name" class="form-label">
+                        <i class="fas fa-user"></i> Full Name
+                    </label>
+                    <input type="text" 
+                           id="new_student_name" 
+                           name="name" 
+                           class="form-control" 
+                           placeholder="Enter full name"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="new_student_email" class="form-label">
+                        <i class="fas fa-envelope"></i> Email
+                    </label>
+                    <input type="email" 
+                           id="new_student_email" 
+                           name="email" 
+                           class="form-control" 
+                           placeholder="Enter email address"
+                           required>
+                </div>
+                
+                <div class="grid grid-2">
+                    <div class="form-group">
+                        <label for="new_student_department" class="form-label">
+                            <i class="fas fa-building"></i> Department
+                        </label>
+                        <select id="new_student_department" name="department" class="form-control" required>
+                            <option value="">Select Department</option>
+                            <option value="Automobile Engineering">Automobile Engineering</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Mechatronics Engineering">Mechatronics Engineering</option>
+                            <option value="Electronics and Instrumentation Engineering">Electronics and Instrumentation Engineering</option>
+                            <option value="Electrical and Electronics Engineering">Electrical and Electronics Engineering</option>
+                            <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+                            <option value="Computer Science Engineering">Computer Science Engineering</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Artificial Intelligence and Data Science">Artificial Intelligence and Data Science</option>
+                            <option value="Artificial Intelligence and Machine Learning">Artificial Intelligence and Machine Learning</option>
+                            <option value="Computer Science and Design">Computer Science and Design</option>
+                            <option value="Chemical Engineering">Chemical Engineering</option>
+                            <option value="Food Technology">Food Technology</option>
+                            <option value="Architecture">Architecture</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="new_student_year" class="form-label">
+                            <i class="fas fa-calendar"></i> Year
+                        </label>
+                        <select id="new_student_year" name="year" class="form-control" required>
+                            <option value="">Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                            <option value="Graduate">Graduate</option>
+                            <option value="Postgraduate">Postgraduate</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="new_training_images" class="form-label">
+                        <i class="fas fa-images"></i> Training Images
+                    </label>
+                    <div class="file-input-wrapper" onclick="document.getElementById('new_training_images').click();">
+                        <input type="file" 
+                               id="new_training_images" 
+                               name="training_images" 
+                               accept="image/*"
+                               multiple
+                               style="display: none;">
+                        <div class="upload-content">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload multiple training photos</span>
+                        </div>
+                    </div>
+                    <div id="new-files-preview" class="files-preview"></div>
+                    <small class="form-text">
+                        Upload 3-10 photos from different angles and lighting conditions.
+                        Minimum 3 photos required for effective training.
+                    </small>
+                </div>
+                
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Register & Train
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Training Progress -->
+    <div id="trainingProgress" class="card" style="display: none;">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-cog fa-spin"></i>
+                Training in Progress
+            </h2>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress">
+                <div id="trainingProgressBar" class="progress-bar" style="width: 0%"></div>
+            </div>
+            <div id="trainingStatus" class="progress-status">Initializing training...</div>
+        </div>
+        
+        <div id="trainingDetails" class="training-details"></div>
+    </div>
+
+    <!-- Training Results -->
+    <div id="trainingResults" class="card" style="display: none;">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-check-circle"></i>
+                Training Results
+            </h2>
+        </div>
+        
+        <div id="trainingResultsContent"></div>
+    </div>
+
+    <!-- Trained Faces Management -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-database"></i>
+                Trained Faces Management
+            </h2>
+            <div class="d-flex gap-2">
+                <button id="refreshTrainedFaces" class="btn btn-outline-primary">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+                <button id="validateAllTraining" class="btn btn-outline-info">
+                    <i class="fas fa-check-circle"></i> Validate All
+                </button>
+                <button id="exportTrainingData" class="btn btn-outline-success">
+                    <i class="fas fa-download"></i> Export Data
+                </button>
+                <button id="clearAllTraining" class="btn btn-outline-danger" onclick="confirmClearAllTraining()">
+                    <i class="fas fa-trash-alt"></i> Clear All
+                </button>
+            </div>
+        </div>
+        
+        <div id="trainedFacesContainer">
+            <!-- Trained faces will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Advanced Training Tools -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-tools"></i>
+                Advanced Training Tools
+            </h2>
+            <p class="mb-0">Advanced features for batch processing and training validation</p>
+        </div>
+        
+        <div class="grid grid-3">
+            <!-- Batch Training -->
+            <div class="training-tool">
+                <div class="tool-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h4>Batch Image Validation</h4>
+                <p>Validate multiple training images before processing</p>
+                <div class="form-group">
+                    <input type="file" 
+                           id="batch-validation-images" 
+                           accept="image/*"
+                           multiple
+                           style="display: none;">
+                    <button class="btn btn-outline-primary" onclick="document.getElementById('batch-validation-images').click()">
+                        <i class="fas fa-upload"></i> Select Images
+                    </button>
+                    <button id="validateImagesBtn" class="btn btn-primary" style="display: none;">
+                        <i class="fas fa-check"></i> Validate
+                    </button>
+                </div>
+                <div id="validation-results" style="display: none;"></div>
+            </div>
+
+            <!-- Retraining Tool -->
+            <div class="training-tool">
+                <div class="tool-icon">
+                    <i class="fas fa-redo-alt"></i>
+                </div>
+                <h4>Retrain Existing</h4>
+                <p>Add more photos to improve existing training</p>
+                <div class="form-group">
+                    <select id="retrain-student-select" class="form-control">
+                        <option value="">Select Student to Retrain</option>
+                        {% for student in students %}
+                        <option value="{{ student.student_id }}">{{ student.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="file" 
+                           id="retrain-images" 
+                           accept="image/*"
+                           multiple
+                           style="display: none;">
+                    <button class="btn btn-outline-primary" onclick="document.getElementById('retrain-images').click()">
+                        <i class="fas fa-plus"></i> Add Photos
+                    </button>
+                    <button id="retrainBtn" class="btn btn-warning" style="display: none;">
+                        <i class="fas fa-redo"></i> Retrain
+                    </button>
+                </div>
+            </div>
+
+            <!-- Training Statistics -->
+            <div class="training-tool">
+                <div class="tool-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h4>Training Analytics</h4>
+                <p>View detailed training statistics and progress</p>
+                <button id="showAnalyticsBtn" class="btn btn-info">
+                    <i class="fas fa-analytics"></i> View Analytics
+                </button>
+                <div id="analytics-panel" style="display: none;" class="mt-3">
+                    <div id="analytics-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Training Feedback -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-video"></i>
+                Live Training Feedback
+            </h2>
+            <p class="mb-0">Test your trained faces with live camera recognition</p>
+        </div>
+        
+        <div class="camera-container">
+            <div class="camera-section">
+                <video id="trainingTestVideo" autoplay muted></video>
+                <canvas id="trainingTestCanvas" style="display: none;"></canvas>
+                <div id="trainingTestOverlay" class="camera-overlay">
+                    <div id="trainingTestResults" class="recognition-results"></div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="startTrainingTest" class="btn btn-success">
+                    <i class="fas fa-play"></i> Start Live Test
+                </button>
+                <button id="stopTrainingTest" class="btn btn-danger" style="display: none;">
+                    <i class="fas fa-stop"></i> Stop Test
+                </button>
+                <div class="test-settings">
+                    <label>
+                        <input type="checkbox" id="showConfidenceScores" checked> 
+                        Show Confidence Scores
+                    </label>
+                    <label>
+                        <input type="checkbox" id="highlightTrainedFaces" checked> 
+                        Highlight Trained Faces
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training Guidelines -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-info-circle"></i>
+                Training Guidelines & Best Practices
+            </h2>
+        </div>
+        
+        <div class="grid grid-2">
+            <div>
+                <h4><i class="fas fa-camera"></i> Photo Quality Guidelines</h4>
+                <ul>
+                    <li><strong>Multiple Angles:</strong> Front-facing, slight left/right turns</li>
+                    <li><strong>Lighting Variations:</strong> Natural light, indoor lighting, different times</li>
+                    <li><strong>Expression Variety:</strong> Neutral, smiling, different expressions</li>
+                    <li><strong>Distance Variations:</strong> Close-up, medium distance shots</li>
+                    <li><strong>Clear Images:</strong> High resolution, not blurry</li>
+                    <li><strong>Minimal Obstructions:</strong> No sunglasses, hats if possible</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4><i class="fas fa-chart-line"></i> Training Optimization</h4>
+                <ul>
+                    <li><strong>Minimum Photos:</strong> 3 photos (5-10 recommended)</li>
+                    <li><strong>Quality over Quantity:</strong> Better few good photos than many poor ones</li>
+                    <li><strong>Regular Updates:</strong> Retrain periodically with new photos</li>
+                    <li><strong>Test Recognition:</strong> Use live camera to verify training results</li>
+                    <li><strong>Monitor Accuracy:</strong> Check confidence scores during recognition</li>
+                    <li><strong>Remove Poor Performers:</strong> Delete and retrain low-accuracy faces</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Training Processing Modal -->
+<div id="trainingModal" class="modal-overlay" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-brain"></i> Processing Training Data</h3>
+            </div>
+            <div class="modal-body">
+                <div class="training-progress-detailed">
+                    <div class="progress mb-3">
+                        <div id="modalProgressBar" class="progress-bar" style="width: 0%"></div>
+                    </div>
+                    <div id="modalTrainingStatus">Preparing images...</div>
+                    <div id="modalTrainingLog" class="training-log"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+class FaceTrainingSystem {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        this.setupEventListeners();
+        this.loadTrainedFaces();
+    }
+
+    setupEventListeners() {
+        // Existing student training form
+        document.getElementById('existingStudentTrainingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleExistingStudentTraining();
+        });
+
+        // New person training form
+        document.getElementById('newPersonTrainingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleNewPersonTraining();
+        });
+
+        // File input handlers
+        document.getElementById('existing_training_images').addEventListener('change', (e) => {
+            this.handleFileSelection(e.target.files, 'existing-files-preview');
+        });
+
+        document.getElementById('new_training_images').addEventListener('change', (e) => {
+            this.handleFileSelection(e.target.files, 'new-files-preview');
+        });
+
+        // Management buttons
+        document.getElementById('refreshTrainedFaces').addEventListener('click', () => {
+            this.loadTrainedFaces();
+        });
+
+        document.getElementById('exportTrainingData').addEventListener('click', () => {
+            this.exportTrainingData();
+        });
+    }
+
+    handleFileSelection(files, previewContainerId) {
+        const container = document.getElementById(previewContainerId);
+        container.innerHTML = '';
+
+        if (files.length === 0) return;
+
+        const previewGrid = document.createElement('div');
+        previewGrid.className = 'files-preview-grid';
+
+        Array.from(files).forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-preview-item';
+
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            img.alt = file.name;
+            img.onload = () => URL.revokeObjectURL(img.src);
+
+            const fileName = document.createElement('div');
+            fileName.className = 'file-name';
+            fileName.textContent = file.name;
+
+            const fileSize = document.createElement('div');
+            fileSize.className = 'file-size';
+            fileSize.textContent = this.formatFileSize(file.size);
+
+            fileItem.appendChild(img);
+            fileItem.appendChild(fileName);
+            fileItem.appendChild(fileSize);
+
+            previewGrid.appendChild(fileItem);
+        });
+
+        container.appendChild(previewGrid);
+
+        // Show file count
+        const countInfo = document.createElement('div');
+        countInfo.className = 'files-count-info';
+        countInfo.innerHTML = `<i class="fas fa-images"></i> ${files.length} image(s) selected`;
+        container.appendChild(countInfo);
+    }
+
+    formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    async handleExistingStudentTraining() {
+        const formData = new FormData(document.getElementById('existingStudentTrainingForm'));
+        const files = document.getElementById('existing_training_images').files;
+
+        if (files.length < 3) {
+            this.showAlert('Please upload at least 3 training images for effective training.', 'warning');
+            return;
+        }
+
+        this.showTrainingModal();
+        this.updateTrainingProgress(0, 'Starting training for existing student...');
+
+        try {
+            const response = await fetch('/train_existing_student', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            this.handleTrainingResponse(result);
+
+        } catch (error) {
+            console.error('Training error:', error);
+            this.showAlert('Training failed. Please try again.', 'error');
+            this.hideTrainingModal();
+        }
+    }
+
+    async handleNewPersonTraining() {
+        const formData = new FormData(document.getElementById('newPersonTrainingForm'));
+        const files = document.getElementById('new_training_images').files;
+
+        if (files.length < 3) {
+            this.showAlert('Please upload at least 3 training images for effective training.', 'warning');
+            return;
+        }
+
+        this.showTrainingModal();
+        this.updateTrainingProgress(0, 'Registering new person and starting training...');
+
+        try {
+            const response = await fetch('/train_new_person', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            this.handleTrainingResponse(result);
+
+        } catch (error) {
+            console.error('Training error:', error);
+            this.showAlert('Training failed. Please try again.', 'error');
+            this.hideTrainingModal();
+        }
+    }
+
+    handleTrainingResponse(result) {
+        this.hideTrainingModal();
+
+        if (result.success) {
+            this.showTrainingResults(result);
+            this.loadTrainedFaces();
+            this.resetForms();
+            this.showAlert(`Training completed successfully! Processed ${result.processed_images} images with ${result.accuracy}% accuracy.`, 'success');
+        } else {
+            this.showAlert(result.message || 'Training failed. Please try again.', 'error');
+        }
+    }
+
+    showTrainingResults(result) {
+        const container = document.getElementById('trainingResultsContent');
+        container.innerHTML = `
+            <div class="training-results-summary">
+                <div class="result-stats">
+                    <div class="stat-item">
+                        <h4>${result.processed_images}</h4>
+                        <p>Images Processed</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>${result.successful_extractions}</h4>
+                        <p>Successful Extractions</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>${result.accuracy}%</h4>
+                        <p>Training Accuracy</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>${result.confidence_score}%</h4>
+                        <p>Avg. Confidence</p>
+                    </div>
+                </div>
+                
+                <div class="training-details-expanded">
+                    <h4>Training Details</h4>
+                    <ul>
+                        <li><strong>Student ID:</strong> ${result.student_id}</li>
+                        <li><strong>Student Name:</strong> ${result.student_name}</li>
+                        <li><strong>Processing Time:</strong> ${result.processing_time}</li>
+                        <li><strong>Training Method:</strong> ${result.training_method}</li>
+                        <li><strong>Face Embeddings:</strong> ${result.embeddings_count} generated</li>
+                    </ul>
+                </div>
+                
+                ${result.warnings && result.warnings.length > 0 ? `
+                <div class="training-warnings">
+                    <h4>Warnings</h4>
+                    <ul>
+                        ${result.warnings.map(warning => `<li>${warning}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+            </div>
+        `;
+
+        document.getElementById('trainingResults').style.display = 'block';
+    }
+
+    showTrainingModal() {
+        document.getElementById('trainingModal').style.display = 'flex';
+        this.updateTrainingProgress(0, 'Initializing...');
+    }
+
+    hideTrainingModal() {
+        document.getElementById('trainingModal').style.display = 'none';
+    }
+
+    updateTrainingProgress(percentage, status, logMessage = null) {
+        document.getElementById('modalProgressBar').style.width = percentage + '%';
+        document.getElementById('modalTrainingStatus').textContent = status;
+
+        if (logMessage) {
+            const logContainer = document.getElementById('modalTrainingLog');
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.textContent = `${new Date().toLocaleTimeString()}: ${logMessage}`;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+    }
+
+    async loadTrainedFaces() {
+        try {
+            const response = await fetch('/get_trained_faces');
+            const data = await response.json();
+
+            this.displayTrainedFaces(data.trained_faces);
+            this.updateStatistics(data.statistics);
+
+        } catch (error) {
+            console.error('Error loading trained faces:', error);
+            this.showAlert('Failed to load trained faces data.', 'error');
+        }
+    }
+
+    displayTrainedFaces(trainedFaces) {
+        const container = document.getElementById('trainedFacesContainer');
+        
+        if (trainedFaces.length === 0) {
+            container.innerHTML = `
+                <div class="no-data-message">
+                    <i class="fas fa-user-slash"></i>
+                    <h3>No Trained Faces</h3>
+                    <p>Start training by uploading photos for students above.</p>
+                </div>
+            `;
+            return;
+        }
+
+        const facesGrid = document.createElement('div');
+        facesGrid.className = 'trained-faces-grid';
+
+        trainedFaces.forEach(face => {
+            const faceCard = document.createElement('div');
+            faceCard.className = 'trained-face-card';
+
+            faceCard.innerHTML = `
+                <div class="face-photo">
+                    <img src="/student_photo/${face.student_id}" 
+                         alt="${face.name}"
+                         onerror="this.src='/static/images/default-avatar.svg'">
+                </div>
+                <div class="face-info">
+                    <h4>${face.name}</h4>
+                    <p class="student-id">${face.student_id}</p>
+                    <p class="department">${face.department} - Year ${face.year}</p>
+                    <div class="training-stats">
+                        <span class="stat">
+                            <i class="fas fa-images"></i>
+                            ${face.training_images_count} images
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-chart-line"></i>
+                            ${face.accuracy}% accuracy
+                        </span>
+                        <span class="stat">
+                            <i class="fas fa-clock"></i>
+                            ${face.last_training}
+                        </span>
+                    </div>
+                </div>
+                <div class="face-actions">
+                    <button class="btn btn-sm btn-primary" onclick="trainingSystem.retrainFace('${face.student_id}')">
+                        <i class="fas fa-sync-alt"></i> Retrain
+                    </button>
+                    <button class="btn btn-sm btn-info" onclick="trainingSystem.testRecognition('${face.student_id}')">
+                        <i class="fas fa-eye"></i> Test
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="trainingSystem.deleteFace('${face.student_id}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            `;
+
+            facesGrid.appendChild(faceCard);
+        });
+
+        container.innerHTML = '';
+        container.appendChild(facesGrid);
+    }
+
+    updateStatistics(statistics) {
+        document.getElementById('totalTrainedFaces').textContent = statistics.total_faces;
+        document.getElementById('totalTrainingImages').textContent = statistics.total_images;
+        document.getElementById('averageAccuracy').textContent = statistics.average_accuracy;
+    }
+
+    resetForms() {
+        document.getElementById('existingStudentTrainingForm').reset();
+        document.getElementById('newPersonTrainingForm').reset();
+        document.getElementById('existing-files-preview').innerHTML = '';
+        document.getElementById('new-files-preview').innerHTML = '';
+    }
+
+    async retrainFace(studentId) {
+        if (!confirm('Are you sure you want to retrain this face? This will update the existing training data.')) {
+            return;
+        }
+
+        // Implementation for retraining
+        this.showAlert('Retrain feature coming soon!', 'info');
+    }
+
+    async testRecognition(studentId) {
+        try {
+            const response = await fetch(`/test_face_recognition/${studentId}`);
+            const result = await response.json();
+
+            if (result.success) {
+                this.showAlert(`Recognition test completed. Confidence: ${result.confidence}%`, 'success');
+            } else {
+                this.showAlert('Recognition test failed.', 'error');
+            }
+        } catch (error) {
+            console.error('Test recognition error:', error);
+            this.showAlert('Test failed. Please try again.', 'error');
+        }
+    }
+
+    async deleteFace(studentId) {
+        if (!confirm('Are you sure you want to delete this face training data? This action cannot be undone.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/delete_face_training/${studentId}`, {
+                method: 'DELETE'
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                this.showAlert('Face training data deleted successfully.', 'success');
+                this.loadTrainedFaces();
+            } else {
+                this.showAlert(result.message || 'Failed to delete face training data.', 'error');
+            }
+        } catch (error) {
+            console.error('Delete face error:', error);
+            this.showAlert('Delete failed. Please try again.', 'error');
+        }
+    }
+
+    async exportTrainingData() {
+        try {
+            const response = await fetch('/export_training_data');
+            const blob = await response.blob();
+            
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `training_data_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            this.showAlert('Training data exported successfully.', 'success');
+        } catch (error) {
+            console.error('Export error:', error);
+            this.showAlert('Export failed. Please try again.', 'error');
+        }
+    }
+
+    showAlert(message, type) {
+        // Use the existing alert system from the main app
+        if (typeof app !== 'undefined' && app.showAlert) {
+            app.showAlert(message, type);
+        } else {
+            alert(message);
+        }
+    }
+
+    // Enhanced Training Features
+    async validateTrainingImages(images) {
+        const formData = new FormData();
+        for (let i = 0; i < images.length; i++) {
+            formData.append('images', images[i]);
+        }
+
+        try {
+            const response = await fetch('/validate_training_images', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            this.displayValidationResults(result);
+            return result;
+        } catch (error) {
+            console.error('Validation error:', error);
+            this.showAlert('Image validation failed', 'error');
+            return null;
+        }
+    }
+
+    displayValidationResults(result) {
+        const container = document.getElementById('validation-results');
+        
+        if (!result.success) {
+            container.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
+            container.style.display = 'block';
+            return;
+        }
+
+        let html = `
+            <div class="validation-summary">
+                <h4>Validation Results</h4>
+                <div class="stats">
+                    <span class="valid-count">${result.summary.valid} Valid</span>
+                    <span class="invalid-count">${result.summary.invalid} Invalid</span>
+                    <span class="total-count">${result.summary.total} Total</span>
+                </div>
+            </div>
+            <div class="validation-details">
+        `;
+
+        result.results.forEach(item => {
+            const statusClass = item.valid ? 'valid' : 'invalid';
+            const icon = item.valid ? 'fa-check-circle' : 'fa-times-circle';
+            const message = item.valid ? item.message : item.error;
+
+            html += `
+                <div class="validation-item ${statusClass}">
+                    <i class="fas ${icon}"></i>
+                    <span class="filename">${item.filename}</span>
+                    <span class="message">${message}</span>
+                </div>
+            `;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+        container.style.display = 'block';
+    }
+
+    async retrainStudent(studentId, images) {
+        const formData = new FormData();
+        for (let i = 0; i < images.length; i++) {
+            formData.append('additional_images', images[i]);
+        }
+
+        try {
+            const response = await fetch(`/retrain_face/${studentId}`, {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                this.showAlert(`Retraining completed: ${result.message}`, 'success');
+                this.loadTrainedFaces(); // Refresh the trained faces display
+                this.updateStatistics();
+            } else {
+                this.showAlert(`Retraining failed: ${result.message}`, 'error');
+            }
+            return result;
+        } catch (error) {
+            console.error('Retraining error:', error);
+            this.showAlert('Retraining failed', 'error');
+            return null;
+        }
+    }
+
+    async getTrainingAnalytics() {
+        try {
+            const response = await fetch('/get_training_statistics');
+            const analytics = await response.json();
+            this.displayAnalytics(analytics);
+            return analytics;
+        } catch (error) {
+            console.error('Analytics error:', error);
+            this.showAlert('Failed to load analytics', 'error');
+            return null;
+        }
+    }
+
+    displayAnalytics(analytics) {
+        const container = document.getElementById('analytics-content');
+        
+        const stats = analytics.additional_stats;
+        const trainedFaces = analytics.faces || [];
+
+        let html = `
+            <div class="analytics-overview">
+                <div class="overview-grid">
+                    <div class="overview-stat">
+                        <h5>Training Progress</h5>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${stats.training_completion_rate}%"></div>
+                            <span class="progress-text">${stats.training_completion_rate}%</span>
+                        </div>
+                        <small>${stats.trained_students} of ${stats.total_students} students trained</small>
+                    </div>
+                    <div class="overview-stat">
+                        <h5>Average Accuracy</h5>
+                        <div class="accuracy-score">${analytics.statistics.average_accuracy}%</div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (trainedFaces.length > 0) {
+            html += `
+                <div class="detailed-analytics">
+                    <h5>Individual Performance</h5>
+                    <div class="performance-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Images</th>
+                                    <th>Accuracy</th>
+                                    <th>Last Training</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            trainedFaces.forEach(face => {
+                html += `
+                    <tr>
+                        <td>${face.name} (${face.student_id})</td>
+                        <td>${face.training_images_count}</td>
+                        <td><span class="accuracy-badge">${face.accuracy}%</span></td>
+                        <td>${face.last_training}</td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table></div></div>';
+        }
+
+        container.innerHTML = html;
+    }
+
+    async clearAllTraining() {
+        try {
+            const response = await fetch('/clear_all_training', {
+                method: 'POST'
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                this.showAlert('All training data cleared successfully', 'success');
+                this.loadTrainedFaces();
+                this.updateStatistics();
+            } else {
+                this.showAlert(`Failed to clear training data: ${result.message}`, 'error');
+            }
+        } catch (error) {
+            console.error('Clear training error:', error);
+            this.showAlert('Failed to clear training data', 'error');
+        }
+    }
+
+    startLiveTrainingTest() {
+        const video = document.getElementById('trainingTestVideo');
+        const canvas = document.getElementById('trainingTestCanvas');
+        const ctx = canvas.getContext('2d');
+        let isTestRunning = false;
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                video.onloadedmetadata = () => {
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    isTestRunning = true;
+                    this.processTrainingTestFrame(video, canvas, ctx);
+                    
+                    document.getElementById('startTrainingTest').style.display = 'none';
+                    document.getElementById('stopTrainingTest').style.display = 'inline-block';
+                };
+            })
+            .catch(error => {
+                console.error('Camera access error:', error);
+                this.showAlert('Camera access failed', 'error');
+            });
+
+        window.trainingTestInterval = setInterval(() => {
+            if (isTestRunning) {
+                this.processTrainingTestFrame(video, canvas, ctx);
+            }
+        }, 100);
+    }
+
+    stopLiveTrainingTest() {
+        const video = document.getElementById('trainingTestVideo');
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+            video.srcObject = null;
+        }
+
+        if (window.trainingTestInterval) {
+            clearInterval(window.trainingTestInterval);
+            window.trainingTestInterval = null;
+        }
+
+        document.getElementById('startTrainingTest').style.display = 'inline-block';
+        document.getElementById('stopTrainingTest').style.display = 'none';
+        document.getElementById('trainingTestResults').innerHTML = '';
+    }
+
+    async processTrainingTestFrame(video, canvas, ctx) {
+        if (video.readyState !== video.HAVE_ENOUGH_DATA) return;
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+
+        try {
+            const response = await fetch('/recognize_realtime', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    image: imageData,
+                    training_test: true
+                })
+            });
+
+            const result = await response.json();
+            this.displayTrainingTestResults(result);
+        } catch (error) {
+            console.error('Recognition test error:', error);
+        }
+    }
+
+    displayTrainingTestResults(result) {
+        const container = document.getElementById('trainingTestResults');
+        const showConfidence = document.getElementById('showConfidenceScores').checked;
+        const highlightTrained = document.getElementById('highlightTrainedFaces').checked;
+
+        if (!result.faces || result.faces.length === 0) {
+            container.innerHTML = '<div class="no-faces">No faces detected</div>';
+            return;
+        }
+
+        let html = '<div class="test-results">';
+        result.faces.forEach((face, index) => {
+            const isTrained = face.name !== 'Unknown';
+            const cssClass = isTrained && highlightTrained ? 'trained-face' : 'unknown-face';
+            
+            html += `
+                <div class="face-result ${cssClass}">
+                    <div class="face-info">
+                        <strong>${face.name}</strong>
+                        ${showConfidence ? `<span class="confidence">(${Math.round(face.confidence * 100)}%)</span>` : ''}
+                    </div>
+                    ${isTrained ? '<i class="fas fa-check-circle trained-icon"></i>' : '<i class="fas fa-question-circle unknown-icon"></i>'}
+                </div>
+            `;
+        });
+        html += '</div>';
+
+        container.innerHTML = html;
+    }
+
+    updateStatistics() {
+        // Update the statistics display
+        this.getTrainingAnalytics().then(analytics => {
+            if (analytics) {
+                document.getElementById('totalTrainedFaces').textContent = analytics.statistics.total_faces;
+                document.getElementById('totalTrainingImages').textContent = analytics.statistics.total_images;
+                document.getElementById('averageAccuracy').textContent = analytics.statistics.average_accuracy + '%';
+            }
+        });
+    }
+}
+
+// Global functions for button events
+function confirmClearAllTraining() {
+    if (confirm('Are you sure you want to clear ALL training data? This action cannot be undone.')) {
+        window.trainingSystem.clearAllTraining();
+    }
+}
+
+// Enhanced event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    window.trainingSystem = new FaceTrainingSystem();
+
+    // Batch validation
+    document.getElementById('batch-validation-images').addEventListener('change', function(e) {
+        const files = e.target.files;
+        if (files.length > 0) {
+            document.getElementById('validateImagesBtn').style.display = 'inline-block';
+            document.getElementById('validateImagesBtn').onclick = () => {
+                window.trainingSystem.validateTrainingImages(files);
+            };
+        }
+    });
+
+    // Retraining
+    document.getElementById('retrain-images').addEventListener('change', function(e) {
+        const files = e.target.files;
+        const studentId = document.getElementById('retrain-student-select').value;
+        if (files.length > 0 && studentId) {
+            document.getElementById('retrainBtn').style.display = 'inline-block';
+            document.getElementById('retrainBtn').onclick = () => {
+                window.trainingSystem.retrainStudent(studentId, files);
+            };
+        }
+    });
+
+    // Analytics
+    document.getElementById('showAnalyticsBtn').addEventListener('click', function() {
+        const panel = document.getElementById('analytics-panel');
+        if (panel.style.display === 'none') {
+            window.trainingSystem.getTrainingAnalytics();
+            panel.style.display = 'block';
+            this.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Analytics';
+        } else {
+            panel.style.display = 'none';
+            this.innerHTML = '<i class="fas fa-analytics"></i> View Analytics';
+        }
+    });
+
+    // Live training test
+    document.getElementById('startTrainingTest').addEventListener('click', () => {
+        window.trainingSystem.startLiveTrainingTest();
+    });
+
+    document.getElementById('stopTrainingTest').addEventListener('click', () => {
+        window.trainingSystem.stopLiveTrainingTest();
+    });
+
+    // Validate all training
+    document.getElementById('validateAllTraining').addEventListener('click', () => {
+        window.trainingSystem.getTrainingAnalytics();
+    });
+})
+
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Enhanced Training Styles */
+.training-tool {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.training-tool:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.tool-icon {
+    font-size: 2.5rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.camera-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.camera-section {
+    position: relative;
+    flex: 1;
+    max-width: 640px;
+}
+
+#trainingTestVideo {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.recognition-results {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    max-width: 200px;
+}
+
+.face-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.trained-face {
+    background: rgba(46, 204, 113, 0.2);
+    border-left: 3px solid #2ecc71;
+}
+
+.unknown-face {
+    background: rgba(241, 196, 15, 0.2);
+    border-left: 3px solid #f1c40f;
+}
+
+.trained-icon {
+    color: #2ecc71;
+}
+
+.unknown-icon {
+    color: #f39c12;
+}
+
+.confidence {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 200px;
+}
+
+.test-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.test-settings label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.validation-results {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 4px;
+    background: #f8f9fa;
+}
+
+.validation-summary {
+    margin-bottom: 1rem;
+}
+
+.validation-summary .stats {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.valid-count {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.invalid-count {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.total-count {
+    color: #6c757d;
+    font-weight: bold;
+}
+
+.validation-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 4px;
+}
+
+.validation-item.valid {
+    background: rgba(40, 167, 69, 0.1);
+    color: #155724;
+}
+
+.validation-item.invalid {
+    background: rgba(220, 53, 69, 0.1);
+    color: #721c24;
+}
+
+.validation-item .filename {
+    font-weight: bold;
+    min-width: 150px;
+}
+
+.analytics-overview {
+    margin-bottom: 2rem;
+}
+
+.overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.overview-stat {
+    text-align: center;
+}
+
+.progress-bar {
+    position: relative;
+    height: 20px;
+    background: #e9ecef;
+    border-radius: 10px;
+    margin: 0.5rem 0;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #3498db, #2ecc71);
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.accuracy-score {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2ecc71;
+}
+
+.performance-table {
+    margin-top: 1rem;
+}
+
+.performance-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.performance-table th,
+.performance-table td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.performance-table th {
+    background: #f8f9fa;
+    font-weight: bold;
+}
+
+.accuracy-badge {
+    background: #2ecc71;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+.no-faces {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .camera-container {
+        flex-direction: column;
+    }
+    
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}

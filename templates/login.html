@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaceLog | Next-Gen Attendance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/card-3d-effects.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/neon-effects.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 3D Animated Background -->
+    <div class="background-container">
+        <div class="gradient-overlay"></div>
+        <div class="particle-field" id="particleField"></div>
+        <div class="holographic-grid"></div>
+        <div class="floating-spheres">
+            <div class="sphere sphere-1"></div>
+            <div class="sphere sphere-2"></div>
+            <div class="sphere sphere-3"></div>
+            <div class="sphere sphere-4"></div>
+            <div class="sphere sphere-5"></div>
+        </div>
+    </div>
+
+    <!-- Main Login Container -->
+    <div class="login-container">
+        <!-- Futuristic Header -->
+        <div class="header-section">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-eye"></i>
+                    <div class="scan-line"></div>
+                </div>
+                <h1 class="app-title">FaceLog</h1>
+                <p class="app-subtitle">Next-Generation Face Recognition Attendance</p>
+            </div>
+        </div>
+
+        <!-- Glassmorphism Login Card -->
+        <div class="login-card" id="loginCard">
+            <!-- Card Corners for Neon Effect -->
+            <div class="card-corner corner-top-left"></div>
+            <div class="card-corner corner-top-right"></div>
+            <div class="card-corner corner-bottom-left"></div>
+            <div class="card-corner corner-bottom-right"></div>
+            
+            <div class="card-header">
+                <h2 class="card-title">
+                    <span class="title-glow">Login</span>
+                </h2>
+                <p class="card-subtitle">Authenticate to enter the system</p>
+                
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ 'danger' if category == 'error' else category }}" style="margin-top: 10px; padding: 10px; border-radius: 5px; background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid #ff4444;">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <!-- Login Form -->
+            <form class="login-form no-js-validation" id="loginForm" action="{{ url_for('login_post') }}" method="POST">
+                <div class="input-group">
+                    <div class="input-container">
+                        <input type="text" id="username" name="username" class="futuristic-input" placeholder=" " value="admin">
+                        <label for="username" class="floating-label">
+                            <i class="fas fa-user-circle icon"></i>
+                            <span class="label-text">Username</span>
+                        </label>
+                        <div class="input-glow"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-container">
+                        <input type="password" id="password" name="password" class="futuristic-input" placeholder=" " value="admin">
+                        <label for="password" class="floating-label">
+                            <i class="fas fa-shield-alt icon"></i>
+                            <span class="label-text">Password</span>
+                        </label>
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <div class="eye-container">
+                                <i class="fas fa-eye eye-icon" id="eyeIcon"></i>
+                                <div class="eye-glow"></div>
+                                <div class="blink-effect"></div>
+                            </div>
+                        </button>
+                        <div class="input-glow"></div>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="form-options">
+                    <label class="remember-checkbox">
+                        <input type="checkbox" id="rememberMe" name="remember" checked>
+                        <span class="custom-checkbox">
+                            <i class="fas fa-check check-icon"></i>
+                        </span>
+                        <span class="checkbox-text">Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <!-- Futuristic Login Button -->
+                <button type="submit" class="login-button" id="loginButton">
+                    <div class="button-content">
+                        <span class="button-text">ACCESS SYSTEM</span>
+                        <div class="button-icon">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="button-ripple"></div>
+                    <div class="button-glow"></div>
+                </button>
+            </form>
+
+            <!-- Alternative Options -->
+            <div class="alternative-options">
+                <div class="divider">
+                    <span class="divider-text">Or</span>
+                </div>
+                <button class="face-recognition-button" id="faceRecognitionButton">
+                    <div class="face-icon">
+                        <i class="fas fa-camera"></i>
+                        <div class="scan-animation"></div>
+                    </div>
+                    <span>Face Recognition Login</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-section">
+            <p class="footer-text">
+                Powered by <span class="highlight">Advanced AI</span> • 
+                Secure <span class="highlight">Biometric</span> Authentication
+            </p>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+        </div>
+        <p class="loading-text">Authenticating...</p>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div class="message-container" id="messageContainer">
+        <div class="message-content">
+            <i class="message-icon"></i>
+            <span class="message-text"></span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/3d-card-effect.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var faceBtn = document.getElementById('faceRecognitionButton');
+        if (faceBtn) {
+            faceBtn.addEventListener('click', function() {
+                window.location.href = "{{ url_for('recognition') }}";
+            });
+        }
+        
+        // Submit the form properly when clicking ACCESS SYSTEM
+        var loginBtn = document.getElementById('loginButton');
+        var loginForm = document.getElementById('loginForm');
+        if (loginBtn && loginForm) {
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Show loading animation
+                var loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'flex';
+                }
+                
+                // Submit the form after short delay for animation
+                setTimeout(function() {
+                    loginForm.submit();
+                }, 500);
+            });
+        }
+    });
+</script>
+</body>
+</html>

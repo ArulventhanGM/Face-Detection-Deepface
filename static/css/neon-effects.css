@@ -1,0 +1,158 @@
+/* Neon Effects for Login Page - Advanced Glassmorphism */
+
+/* Additional Variables */
+:root {
+    --neon-cyan: #38bdf8;
+    --neon-cyan-rgb: 56, 189, 248;
+    --neon-blue: #0ea5e9;
+    --neon-blue-rgb: 14, 165, 233;
+    --neon-pink: #ec4899;
+    --neon-pink-rgb: 236, 72, 153;
+    --dark-glass: rgba(15, 23, 42, 0.8);
+}
+
+/* Enhanced Glass Card Effect */
+.login-card {
+    position: relative;
+}
+
+/* Add moving ambient glow effect */
+.login-card::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(
+        circle at center,
+        transparent 30%,
+        rgba(var(--neon-cyan-rgb), 0.03) 40%,
+        rgba(var(--neon-blue-rgb), 0.04) 50%,
+        rgba(var(--neon-pink-rgb), 0.03) 60%,
+        transparent 70%
+    );
+    z-index: -2;
+    opacity: 0.5;
+    animation: moveGradient 15s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes moveGradient {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Add hover effect to input containers */
+.input-container {
+    position: relative;
+    overflow: visible;
+}
+
+.input-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: transparent;
+    z-index: -1;
+    transition: all 0.4s ease;
+}
+
+.input-container:hover::after {
+    box-shadow: 0 0 30px rgba(var(--neon-cyan-rgb), 0.4);
+}
+
+/* Enhanced focus effects for inputs */
+.futuristic-input:focus ~ .input-glow {
+    opacity: 0.8;
+    animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% {
+        opacity: 0.4;
+        transform: scale(0.98);
+    }
+    100% {
+        opacity: 0.8;
+        transform: scale(1.01);
+    }
+}
+
+/* Label text glow animation on focus */
+.futuristic-input:focus + .floating-label .label-text {
+    animation: textGlow 1.5s infinite alternate;
+}
+
+@keyframes textGlow {
+    0% {
+        text-shadow: 0 0 5px rgba(var(--neon-cyan-rgb), 0.5),
+                    0 0 10px rgba(var(--neon-cyan-rgb), 0.3);
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(var(--neon-cyan-rgb), 0.8),
+                    0 0 20px rgba(var(--neon-cyan-rgb), 0.5),
+                    0 0 30px rgba(var(--neon-cyan-rgb), 0.3);
+    }
+}
+
+/* Add corner highlights to login card */
+.card-corner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+}
+
+.corner-top-left {
+    top: 0;
+    left: 0;
+    border-top: 2px solid rgba(var(--neon-cyan-rgb), 0.6);
+    border-left: 2px solid rgba(var(--neon-cyan-rgb), 0.6);
+    border-top-left-radius: 12px;
+}
+
+.corner-top-right {
+    top: 0;
+    right: 0;
+    border-top: 2px solid rgba(var(--neon-blue-rgb), 0.6);
+    border-right: 2px solid rgba(var(--neon-blue-rgb), 0.6);
+    border-top-right-radius: 12px;
+}
+
+.corner-bottom-left {
+    bottom: 0;
+    left: 0;
+    border-bottom: 2px solid rgba(var(--neon-blue-rgb), 0.6);
+    border-left: 2px solid rgba(var(--neon-blue-rgb), 0.6);
+    border-bottom-left-radius: 12px;
+}
+
+.corner-bottom-right {
+    bottom: 0;
+    right: 0;
+    border-bottom: 2px solid rgba(var(--neon-cyan-rgb), 0.6);
+    border-right: 2px solid rgba(var(--neon-cyan-rgb), 0.6);
+    border-bottom-right-radius: 12px;
+}
+
+/* Add subtle pulsing animation to corners */
+.login-card:hover .card-corner {
+    animation: cornerPulse 2s infinite alternate;
+}
+
+@keyframes cornerPulse {
+    0% {
+        opacity: 0.6;
+        box-shadow: 0 0 10px rgba(var(--neon-cyan-rgb), 0.3);
+    }
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(var(--neon-cyan-rgb), 0.5),
+                    0 0 30px rgba(var(--neon-cyan-rgb), 0.2);
+    }
+}

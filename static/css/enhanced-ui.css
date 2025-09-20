@@ -1,0 +1,1220 @@
+/* 
+ * Consolidated UI Enhancements
+ * Combines black glassmorphism, animated particles, interactive elements, and futuristic effects
+ */
+
+/***************************************
+ * 1. BLACK GLASSMORPHISM CARD EFFECT
+ ***************************************/
+
+/* Card Styles with Black Glassmorphism */
+.card.black-glass {
+    background: rgba(8, 8, 15, 0.85) !important; /* Dark, almost black background with transparency */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* 5. AUTO-REFRESH FUNCTIONALITY
+ ***************************************/
+
+/* Auto-refresh functionality is now silent and has no visual indicators */
+
+/* Legacy auto-refresh status (preserved for backwards compatibility) */
+.auto-refresh-status {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(8, 8, 15, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 185, 199, 0.4);
+    border-radius: 20px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.auto-refresh-status:hover {
+    background: rgba(12, 12, 24, 0.9);
+}
+
+.auto-refresh-status .status-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.auto-refresh-status .status-icon.connected {
+    background-color: #00b9c7;
+    box-shadow: 0 0 10px rgba(0, 185, 199, 0.7);
+    animation: pulse 2s infinite;
+}
+
+.auto-refresh-status .status-icon.disconnected {
+    background-color: #ff4757;
+    box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 6. RESPONSIVE DESIGN
+ ***************************************/
+
+/* Grid Layout */
+.card.black-glass .grid {
+    border-radius: 10px !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+    color: #ffffff !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    padding: 0 !important; /* Reset any padding */
+}
+
+.card.black-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 185, 199, 0.7), 
+        transparent
+    );
+    z-index: 2;
+}
+
+/* Card Header with Black Glassmorphism */
+.card.black-glass .card-header {
+    background: rgba(12, 12, 20, 0.9) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 1.25rem !important;
+}
+
+.card.black-glass .card-body {
+    padding: 1.5rem !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Glass table styling for black glassmorphism cards */
+.glass-table {
+    background: transparent !important;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.glass-table thead th {
+    background: rgba(0, 185, 199, 0.1) !important;
+    border-bottom: 2px solid rgba(0, 185, 199, 0.3) !important;
+    color: rgba(0, 185, 199, 0.9) !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 500 !important;
+    letter-spacing: 1px !important;
+    font-size: 0.9rem !important;
+    padding: 0.75rem 1rem !important;
+}
+
+.glass-table tbody tr {
+    background: rgba(8, 8, 15, 0.4) !important;
+    transition: all 0.3s ease;
+}
+
+.glass-table tbody tr:hover {
+    background: rgba(8, 8, 15, 0.7) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.glass-table td {
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    padding: 0.75rem 1rem !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Feature cards in black glassmorphism theme */
+.feature-card {
+    background: rgba(15, 15, 30, 0.5) !important;
+    border: 1px solid rgba(0, 185, 199, 0.2) !important;
+    border-radius: 10px !important;
+    padding: 1.5rem !important;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin: 0.5rem;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 185, 199, 0.15);
+    background: rgba(15, 15, 30, 0.7) !important;
+}
+
+.feature-icon {
+    font-size: 2.5rem !important;
+    background: linear-gradient(135deg, #00b9c7, #006d74);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.feature-title {
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: #00b9c7 !important;
+    margin-bottom: 1rem !important;
+}
+
+.feature-text {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+}
+
+/* Text colors for black glassmorphism cards */
+.text-cyan {
+    color: #00b9c7 !important;
+}
+
+/* Button styles for black glassmorphism theme */
+.btn-outline-cyan {
+    color: #00b9c7;
+    border-color: #00b9c7;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-cyan:hover {
+    color: #000;
+    background-color: #00b9c7;
+    border-color: #00b9c7;
+}
+
+/* Light green (mint) button styles */
+.btn-outline-mint {
+    color: #fff;
+    background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3) !important;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.btn-outline-mint:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #2ecc71, #27ae60) !important; /* Reversed gradient on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(46, 204, 113, 0.4) !important;
+}
+
+/* Glowing button effect for export buttons */
+.btn-glow {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* Cyan glow */
+.btn-outline-info.btn-glow {
+    box-shadow: 0 0 5px rgba(0, 185, 199, 0.3);
+}
+
+.btn-outline-info.btn-glow:hover {
+    box-shadow: 0 0 15px rgba(0, 185, 199, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Mint green glow - styles already included in base class */
+.btn-outline-mint.btn-glow {
+    position: relative;
+    overflow: hidden;
+    /* Additional styling in .btn-outline-mint class */
+}
+
+.btn-glow::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.6s;
+}
+
+.btn-glow:hover::after {
+    left: 100%;
+}
+
+.card.black-glass .card-title {
+    color: #ffffff !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(0, 185, 199, 0.3);
+}
+
+.card.black-glass .card-title i {
+    color: #00b9c7; /* Teal accent color */
+    margin-right: 12px;
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px rgba(0, 185, 199, 0.5);
+}
+
+/* Card Content */
+.card.black-glass p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-size: 1.15rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1.5rem !important;
+    letter-spacing: 0.3px;
+}
+
+/* Button Styling */
+.card.black-glass .btn-primary {
+    background: linear-gradient(135deg, #0288d1, #26c6da) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 185, 199, 0.3) !important;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 0.75rem 1.25rem !important;
+    text-transform: uppercase !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.card.black-glass .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 185, 199, 0.5) !important;
+}
+
+/* Shimmering effect for primary button */
+.card.black-glass .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card.black-glass .btn-primary:hover::before {
+    animation: shimmer 1.5s infinite;
+    opacity: 1;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: rotate(30deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(30deg) translateX(100%);
+    }
+}
+
+.card.black-glass .btn-primary i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.card.black-glass .btn-primary:hover i {
+    transform: scale(1.2);
+}
+
+.card.black-glass .btn-secondary {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+    transition: all 0.3s ease;
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 1.25rem !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.card.black-glass .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Border pulse effect for secondary button */
+.card.black-glass .btn-secondary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    border-radius: inherit;
+}
+
+.card.black-glass .btn-secondary:hover::after {
+    animation: pulseBorder 1.5s infinite;
+    opacity: 1;
+}
+
+@keyframes pulseBorder {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+.card.black-glass .btn-secondary i {
+    margin-right: 8px;
+    opacity: 0.9;
+}
+
+/* Success Button Styling */
+.card.black-glass .btn-success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3) !important;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 0.75rem 1.25rem !important;
+}
+
+.card.black-glass .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(46, 204, 113, 0.5) !important;
+}
+
+.card.black-glass .btn-success i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+/* Warning Button Styling */
+.card.black-glass .btn-warning {
+    background: linear-gradient(135deg, #f39c12, #f1c40f) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3) !important;
+    transition: all 0.3s ease;
+    font-family: 'Orbitron', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 0.75rem 1.25rem !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.card.black-glass .btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(243, 156, 18, 0.5) !important;
+}
+
+.card.black-glass .btn-warning i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.card.black-glass .btn-warning:hover i {
+    transform: scale(1.2);
+}
+
+/* Hover Effect */
+.card.black-glass {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+}
+
+.card.black-glass:hover {
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6) !important;
+    transform: translateY(-8px);
+}
+
+/* Enhanced hover glow effect */
+.card.black-glass::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 30px rgba(0, 185, 199, 0.1);
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.card.black-glass:hover::after {
+    opacity: 1;
+}
+
+/* Subtle border glow on hover */
+.card.black-glass:hover::before {
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 185, 199, 0.9), 
+        transparent
+    );
+    animation: border-glow 2s infinite;
+}
+
+@keyframes border-glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/***************************************
+ * 2. FUTURISTIC NEON EFFECTS
+ ***************************************/
+
+/* Pulsating icon glow */
+.card.black-glass .card-title i {
+    animation: iconPulse 3s infinite alternate;
+}
+
+@keyframes iconPulse {
+    0%, 100% {
+        text-shadow: 0 0 8px rgba(0, 185, 199, 0.7);
+    }
+    50% {
+        text-shadow: 0 0 15px rgba(0, 185, 199, 0.9),
+                     0 0 25px rgba(0, 185, 199, 0.5);
+    }
+}
+
+/* Gradient accent lines */
+.card.black-glass::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(99, 50, 230, 0.8),
+        rgba(0, 185, 199, 0.8),
+        rgba(99, 50, 230, 0.8),
+        transparent
+    );
+    opacity: 0.3;
+    transition: all 0.5s ease;
+}
+
+.card.black-glass:hover::after {
+    opacity: 0.7;
+}
+
+/* Enhanced button gradient */
+.card.black-glass .btn-primary {
+    background: linear-gradient(135deg, 
+        rgba(2, 136, 209, 1) 0%, 
+        rgba(38, 198, 218, 1) 100%) !important;
+    border: none;
+    position: relative;
+    z-index: 1;
+}
+
+.card.black-glass .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(135deg, 
+        rgba(38, 198, 218, 1) 0%, 
+        rgba(2, 136, 209, 1) 100%);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.5s ease;
+}
+
+.card.black-glass .btn-primary:hover::after {
+    opacity: 1;
+}
+
+/***************************************
+ * 3. INTERACTIVE ELEMENTS
+ ***************************************/
+
+/* Interactive form elements */
+.form-control, .input-group {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-control:focus {
+    box-shadow: 0 0 15px rgba(0, 185, 199, 0.3) !important;
+    border-color: rgba(0, 185, 199, 0.5) !important;
+}
+
+/* Enhanced password toggle */
+.password-toggle {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.password-toggle:hover {
+    color: rgba(0, 185, 199, 1);
+    transform: scale(1.1);
+}
+
+.password-toggle:focus {
+    outline: none;
+}
+
+/* Rotate icon on toggle */
+.password-toggle i {
+    transition: all 0.3s ease;
+}
+
+.password-toggle.active i {
+    transform: rotate(180deg);
+}
+
+/* Custom checkbox with animation */
+.custom-control-label::before {
+    transition: all 0.3s ease;
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: rgba(0, 185, 199, 0.8) !important;
+    border-color: rgba(0, 185, 199, 0.8) !important;
+    box-shadow: 0 0 10px rgba(0, 185, 199, 0.4) !important;
+}
+
+/* Smooth dropdown transitions */
+.dropdown-menu {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(8, 8, 15, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dropdown-item {
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(0, 185, 199, 0.1) !important;
+    color: rgba(0, 185, 199, 1) !important;
+}
+
+/* Form Elements in Black Glass Cards */
+.card.black-glass .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.card.black-glass .form-label {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.card.black-glass .form-label i {
+    color: rgba(0, 185, 199, 0.9);
+    margin-right: 8px;
+}
+
+.card.black-glass .form-text {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.card.black-glass .file-input-wrapper {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.card.black-glass .file-input-wrapper:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card.black-glass .file-input-wrapper input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.card.black-glass .file-input-wrapper i {
+    font-size: 2rem;
+    color: rgba(0, 185, 199, 0.8);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.card.black-glass .checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.card.black-glass .checkbox-label {
+    margin-left: 0.5rem;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-family: 'Exo 2', sans-serif !important;
+    cursor: pointer;
+}
+
+.card.black-glass .checkbox-label i {
+    color: rgba(0, 185, 199, 0.9);
+    margin-right: 8px;
+}
+
+.card.black-glass input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: rgba(0, 185, 199, 0.8);
+    cursor: pointer;
+}
+
+.card.black-glass .alert {
+    border: none !important;
+    border-radius: 8px;
+    padding: 1rem !important;
+}
+
+.card.black-glass .alert-warning {
+    background-color: rgba(243, 156, 18, 0.15) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border-left: 4px solid #f39c12 !important;
+}
+
+.card.black-glass .alert i {
+    margin-right: 8px;
+    color: #f39c12;
+}
+
+.card.black-glass h4 {
+    font-family: 'Orbitron', sans-serif !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    margin-bottom: 1rem;
+}
+
+.card.black-glass .text-muted {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/***************************************
+ * 4. ANIMATED PARTICLES
+ ***************************************/
+
+/* Particle container */
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Individual particles */
+.particle {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(0, 185, 199, 0.8), transparent);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Particle animations */
+@keyframes float-up {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(1);
+        opacity: 0;
+    }
+    10% {
+        opacity: var(--particle-opacity);
+    }
+    90% {
+        opacity: var(--particle-opacity);
+    }
+    100% {
+        transform: translateY(-100px) translateX(var(--particle-drift)) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/***************************************
+ * 5. RESPONSIVE DESIGN
+ ***************************************/
+
+/* Grid Layout */
+.card.black-glass .grid {
+    display: grid;
+    gap: 2rem;
+    padding: 1.5rem;
+}
+
+.card.black-glass .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .card.black-glass .card-title {
+        font-size: 1.6rem !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .card.black-glass .card-title {
+        font-size: 1.5rem !important;
+    }
+    
+    .card.black-glass p {
+        font-size: 1.05rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .card.black-glass .card-title {
+        font-size: 1.4rem !important;
+    }
+    
+    .card.black-glass p {
+        font-size: 1rem !important;
+        margin-bottom: 1.2rem !important;
+    }
+    
+    .card.black-glass .btn-primary,
+    .card.black-glass .btn-secondary,
+    .card.black-glass .btn-warning,
+    .card.black-glass .btn-success {
+        padding: 0.65rem 1.1rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .card.black-glass:hover {
+        transform: translateY(-5px); /* Smaller transform on mobile */
+    }
+    
+    .card.black-glass .grid-2 {
+        grid-template-columns: 1fr; /* Single column on mobile */
+    }
+}
+
+@media (max-width: 576px) {
+    .card.black-glass .card-title {
+        font-size: 1.3rem !important;
+        letter-spacing: 0.5px;
+    }
+    
+    .card.black-glass .card-title i {
+        font-size: 1.2rem;
+        margin-right: 8px;
+    }
+    
+    .card.black-glass .btn-primary,
+    .card.black-glass .btn-secondary {
+        width: 100%;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .card.black-glass .d-flex.gap-2 {
+        flex-direction: column !important;
+    }
+}
+
+/* Settings Page Styles */
+.custom-toggle-switch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    margin: 10px 0;
+}
+
+.toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 185, 199, 0.3);
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.toggle-label:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 3px;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-input:checked + .toggle-label {
+    background-color: rgba(0, 185, 199, 0.6);
+    box-shadow: 0 0 10px rgba(0, 185, 199, 0.4);
+}
+
+.toggle-input:checked + .toggle-label:before {
+    transform: translateX(30px);
+    background-color: white;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.futuristic-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, rgba(0, 185, 199, 0.2), rgba(0, 185, 199, 0.8));
+    outline: none;
+    opacity: 0.8;
+    transition: .2s;
+}
+
+.futuristic-slider:hover {
+    opacity: 1;
+}
+
+.futuristic-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #00b9c7;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 185, 199, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+.futuristic-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #00b9c7;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 185, 199, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+.futuristic-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(0, 185, 199, 0.9);
+}
+
+.futuristic-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px rgba(0, 185, 199, 0.9);
+}
+
+output {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(8, 8, 15, 0.9);
+    color: #00b9c7;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 185, 199, 0.3);
+    transition: all 0.3s ease;
+}
+
+.form-info {
+    background: rgba(0, 185, 199, 0.05);
+    border-left: 3px solid #00b9c7;
+    padding: 10px 15px;
+    margin: 15px 0;
+    border-radius: 0 5px 5px 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.form-info i {
+    color: #00b9c7;
+    margin-right: 5px;
+}
+
+/* Camera Preview Styles */
+.camera-preview {
+    width: 100%;
+    background-color: var(--glass-bg-darker);
+    transition: all 0.3s ease;
+}
+
+.camera-preview.active {
+    border: 2px solid rgba(0, 185, 199, 0.5);
+    box-shadow: 0 0 15px rgba(0, 185, 199, 0.3);
+}
+
+.camera-preview.inactive {
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    filter: grayscale(100%) brightness(0.5);
+}
+
+.camera-container {
+    position: relative;
+    border-radius: 10px; 
+    overflow: hidden;
+    box-shadow: var(--glass-shadow);
+}
+
+.camera-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 185, 199, 0.1), transparent 80%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.camera-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.camera-access-guide {
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.camera-icon {
+    font-size: 40px;
+    color: #00b9c7;
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+}
+
+.camera-error-overlay {
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 80%;
+}
+
+.camera-error-icon {
+    font-size: 40px;
+    color: #ff3b3b;
+    margin-bottom: 15px;
+}
+
+.camera-access-guide p,
+.camera-error-overlay p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.camera-access-guide p.small,
+.camera-error-overlay p.small {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.glass-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.glass-button.warning {
+    background: linear-gradient(135deg, rgba(255, 153, 0, 0.2), rgba(255, 153, 0, 0.05));
+    border: 1px solid rgba(255, 153, 0, 0.3);
+    color: #ff9900;
+}
+
+.glass-button.warning:hover {
+    background: linear-gradient(135deg, rgba(255, 153, 0, 0.3), rgba(255, 153, 0, 0.1));
+    border: 1px solid rgba(255, 153, 0, 0.5);
+}
+
+/* Troubleshooting Guide Styles */
+.troubleshooting-guide {
+    background: rgba(8, 8, 15, 0.7);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    border: 1px solid rgba(0, 185, 199, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    font-size: 0.95rem;
+}
+
+.troubleshooting-guide h4 {
+    color: #00b9c7;
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 185, 199, 0.3);
+    padding-bottom: 8px;
+}
+
+.troubleshooting-guide ul {
+    padding-left: 25px;
+}
+
+.troubleshooting-guide li {
+    margin-bottom: 8px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.troubleshooting-guide li::before {
+    content: '•';
+    color: #00b9c7;
+    font-weight: bold;
+    position: absolute;
+    left: -18px;
+}
+
+.troubleshooting-guide p {
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.permission-icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.permission-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.permission-icon img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-bottom: 5px;
+}
+
+.permission-icon span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}

@@ -1,0 +1,814 @@
+{% extends "base.html" %}
+
+{% block title %}Face Recognition - Face Recognition System{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/realtime-recognition.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/group-photo-recognition.js') }}"></script>
+<script src="{{ url_for('static', filename='js/face-recognition-methods.js') }}"></script>
+<script src="{{ url_for('static', filename='js/result-display-methods.js') }}"></script>
+<script src="{{ url_for('static', filename='js/realtime-face-recognition.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Real-time Recognition Card -->
+    <div class="glass-card">
+        <div style="margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+            <h1 style="font-family: 'Orbitron', sans-serif; margin: 0; color: var(--text-primary);">
+                <i class="fas fa-video" style="color: var(--accent-teal);"></i>
+                Real-time Face Recognition
+            </h1>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px;">
+            <div>
+                <div class="camera-container" style="border: 1px solid var(--glass-border); border-radius: 10px; overflow: hidden; box-shadow: var(--glass-shadow);">
+                    <video id="cameraPreview" class="camera-preview" autoplay muted style="width: 100%; background-color: var(--glass-bg-darker);"></video>
+                    <div class="camera-overlay" id="cameraOverlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 5;"></div>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
+                    <button id="startCamera" class="glass-button success">
+                        <i class="fas fa-play"></i> Start Camera
+                    </button>
+                    <button id="forceCamera" class="glass-button warning" style="display: none;">
+                        <i class="fas fa-laptop"></i> Force Laptop Camera
+                    </button>
+                    <button id="stopCamera" class="glass-button danger" style="display: none;">
+                        <i class="fas fa-stop"></i> Stop Camera
+                    </button>
+                    <button id="capturePhoto" class="glass-button primary" disabled>
+                        <i class="fas fa-camera"></i> Capture Photo
+                    </button>
+                    <button id="startRecognition" class="glass-button success">
+                        <i class="fas fa-eye"></i> Start Recognition
+                    </button>
+                    <button id="stopRecognition" class="glass-button danger" style="display: none;">
+                        <i class="fas fa-eye-slash"></i> Stop Recognition
+                    </button>
+                </div>
+            </div>
+            
+            <div class="results-panel">
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--accent-violet); margin-bottom: 15px;">Recognition Results</h3>
+                <div id="realTimeResults" class="glass-card" style="min-height: 200px; margin-bottom: 20px;">
+                    <p style="text-align: center; color: var(--text-secondary); padding: 20px;">Start recognition to see results</p>
+                </div>
+                
+                <div id="streamingStatus" class="streaming-status">
+                    <span class="streaming-icon"><i class="fas fa-video"></i></span>
+                    <span class="streaming-text">Camera Ready</span>
+                </div>
+                
+                <div class="glass-card" style="border-left: 3px solid var(--accent-teal);">
+                    <i class="fas fa-info-circle" style="color: var(--accent-teal);"></i>
+                    <strong style="color: var(--text-primary);">How to use:</strong>
+                    <ul style="margin: 10px 0 0 0; padding-left: 20px; color: var(--text-secondary);">
+                        <li>Click "Start Camera" to activate webcam</li>
+                        <li>Faces will be automatically detected and recognized</li>
+                        <li>Or click "Start Recognition" for manual control</li>
+                        <li>Click "Mark Attendance" to record presence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photo Upload Recognition Section -->
+    <div class="glass-card mt-4">
+        <div style="margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px;">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin: 0; color: var(--text-primary);">
+                <i class="fas fa-camera" style="color: var(--accent-violet);"></i>
+                Photo Recognition
+            </h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <!-- Upload Section -->
+            <div>
+                <div class="upload-section">
+                    <div class="upload-area" id="singlePhotoDropZone" style="border: 2px dashed var(--glass-border); border-radius: 10px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--accent-teal); margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--text-primary); margin-bottom: 10px;">Single Face Recognition</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">Click or drag to upload a photo with a single face</p>
+                        <button type="button" id="uploadSinglePhoto" class="glass-button primary">
+                            <i class="fas fa-upload"></i> Choose Photo
+                        </button>
+                        <input type="file" id="singlePhotoInput" accept="image/*" style="display: none;">
+                    </div>
+
+                    <div class="upload-area mt-3" id="groupPhotoDropZone" style="border: 2px dashed var(--glass-border); border-radius: 10px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-users" style="font-size: 3rem; color: var(--accent-violet); margin-bottom: 15px;"></i>
+                        <h4 style="color: var(--text-primary); margin-bottom: 10px;">Group Photo Recognition</h4>
+                        <p style="color: var(--text-secondary); margin-bottom: 15px;">Click or drag to upload a group photo</p>
+                        <button type="button" id="uploadGroupPhoto" class="glass-button warning">
+                            <i class="fas fa-upload"></i> Choose Group Photo
+                        </button>
+                        <input type="file" id="groupPhotoInput" accept="image/*" style="display: none;">
+                    </div>
+
+                    <div class="mt-3" style="text-align: center;">
+                        <button type="button" id="clearResults" class="glass-button danger">
+                            <i class="fas fa-trash"></i> Clear Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div>
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--accent-teal); margin-bottom: 15px;">Recognition Results</h3>
+                <div id="recognitionResults" class="glass-card" style="min-height: 300px; padding: 20px;">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-image fa-3x mb-3" style="color: var(--text-secondary);"></i>
+                        <p>Upload an image to see recognition results</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Face Comparison System -->
+    <div class="card" id="faceComparisonSection" style="display: none;">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-eye"></i>
+                Face Comparison & Verification
+            </h2>
+        </div>
+        
+        <div class="card-body">
+            <div class="comparison-container">
+                <!-- Real-time Face Display -->
+                <div class="realtime-face-section">
+                    <h3><i class="fas fa-video"></i> Detected Face</h3>
+                    <div class="face-display-card">
+                        <div class="face-image-container" id="realtimeFaceContainer">
+                            <img id="realtimeFaceImage" src="" alt="Detected Face" style="display: none;">
+                            <div class="no-face-placeholder">
+                                <i class="fas fa-user-circle"></i>
+                                <p>No face detected</p>
+                            </div>
+                        </div>
+                        <div class="face-metadata" id="realtimeFaceMetadata">
+                            <div class="metadata-item">
+                                <span class="label">Quality:</span>
+                                <span class="value" id="faceQuality">-</span>
+                            </div>
+                            <div class="metadata-item">
+                                <span class="label">Detection Time:</span>
+                                <span class="value" id="detectionTime">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggested Matches -->
+                <div class="suggested-matches-section">
+                    <h3><i class="fas fa-search"></i> Suggested Matches</h3>
+                    <div class="matches-container" id="suggestedMatches">
+                        <div class="no-matches-placeholder">
+                            <i class="fas fa-search"></i>
+                            <p>No matches found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Verification Controls -->
+            <div class="verification-controls" id="verificationControls" style="display: none;">
+                <div class="controls-header">
+                    <h4><i class="fas fa-check-circle"></i> Manual Verification</h4>
+                    <p>Review the suggested matches and verify the correct student for attendance marking.</p>
+                </div>
+                
+                <div class="verification-buttons">
+                    <button class="btn btn-success" id="confirmMatchBtn" onclick="confirmMatch()">
+                        <i class="fas fa-check"></i> Confirm & Mark Attendance
+                    </button>
+                    <button class="btn btn-warning" id="skipMatchBtn" onclick="skipMatch()">
+                        <i class="fas fa-forward"></i> Skip This Face
+                    </button>
+                    <button class="btn btn-danger" id="rejectAllBtn" onclick="rejectAllMatches()">
+                        <i class="fas fa-times"></i> No Match Found
+                    </button>
+                </div>
+                
+                <div class="verification-feedback" id="verificationFeedback">
+                    <!-- Feedback messages will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Attendance -->
+    <div class="card black-glass">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-users"></i>
+                Bulk Attendance from Group Photo
+            </h2>
+        </div>
+        
+        <div class="grid grid-2">
+            <div>
+                <div class="form-group">
+                    <label for="groupPhoto" class="form-label">
+                        <i class="fas fa-users"></i> Group Photo
+                    </label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="groupPhoto" name="group_photo" accept="image/*">
+                        <i class="fas fa-users"></i>
+                        Upload group photo for attendance
+                    </div>
+                    <small class="form-text">
+                        Upload a group photo to automatically mark attendance for all recognized students.
+                        This will process all faces in the image and mark attendance for today.
+                    </small>
+                </div>
+                
+                <!-- Location Extraction Option -->
+                <div class="form-group">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="extractLocation" name="extract_location" checked>
+                        <label for="extractLocation" class="checkbox-label">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Extract location from geo-tagged photos
+                        </label>
+                    </div>
+                    <small class="form-text">
+                        If the uploaded photo contains GPS data, automatically extract location information 
+                        and include it in the attendance records.
+                    </small>
+                </div>
+                
+                <button type="button" id="bulkMarkBtn" class="btn btn-warning" onclick="bulkMarkAttendance()">
+                    <i class="fas fa-calendar-check"></i> Mark Bulk Attendance
+                </button>
+                
+                <div class="alert alert-warning mt-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Note:</strong> This will mark attendance for ALL recognized faces in the photo.
+                    Students who already have attendance marked today will be skipped.
+                </div>
+            </div>
+            
+            <div>
+                <h4>Bulk Processing Results</h4>
+                <div id="bulkResults">
+                    <p class="text-center text-muted">Upload a group photo and click "Mark Bulk Attendance" to see results</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="card black-glass">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-lightbulb"></i>
+                Usage Instructions
+            </h2>
+        </div>
+        
+        <div class="grid grid-3">
+            <div class="text-center">
+                <i class="fas fa-video" style="font-size: 3rem; color: var(--success-color); margin-bottom: 1rem;"></i>
+                <h4>Real-time Recognition</h4>
+                <ul style="text-align: left;">
+                    <li>Best for individual identification</li>
+                    <li>Real-time feedback</li>
+                    <li>Manual attendance marking</li>
+                    <li>Live confidence scores</li>
+                </ul>
+            </div>
+            
+            <div class="text-center">
+                <i class="fas fa-image" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
+                <h4>Photo Recognition</h4>
+                <ul style="text-align: left;">
+                    <li>Upload any photo</li>
+                    <li>Identify all faces</li>
+                    <li>Review before marking</li>
+                    <li>Single or multiple faces</li>
+                </ul>
+            </div>
+            
+            <div class="text-center">
+                <i class="fas fa-users" style="font-size: 3rem; color: var(--warning-color); margin-bottom: 1rem;"></i>
+                <h4>Bulk Attendance</h4>
+                <ul style="text-align: left;">
+                    <li>Process group photos</li>
+                    <li>Automatic attendance</li>
+                    <li>Multiple students at once</li>
+                    <li>Perfect for classrooms</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Add click handler for file upload area
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle file input click for bulk attendance
+    const groupPhotoWrapper = document.querySelector('#groupPhoto').parentElement;
+    const groupPhotoInput = document.getElementById('groupPhoto');
+    
+    if (groupPhotoWrapper && groupPhotoInput) {
+        groupPhotoWrapper.addEventListener('click', function() {
+            groupPhotoInput.click();
+        });
+        
+        // Update display when file is selected
+        groupPhotoInput.addEventListener('change', function() {
+            const fileName = this.files[0] ? this.files[0].name : 'Upload group photo for attendance';
+            const iconElement = groupPhotoWrapper.querySelector('i');
+            const textNode = groupPhotoWrapper.childNodes[groupPhotoWrapper.childNodes.length - 1];
+            
+            if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+                textNode.textContent = fileName;
+            }
+            
+            // Change icon to indicate file selected
+            if (iconElement && this.files[0]) {
+                iconElement.className = 'fas fa-check-circle';
+                groupPhotoWrapper.style.borderColor = '#ffc107';
+                groupPhotoWrapper.style.backgroundColor = '#fff3cd';
+            }
+        });
+    }
+});
+
+// Initialize Group Photo Recognition
+const groupPhotoRecognition = new GroupPhotoRecognition();
+</script>
+
+<style>
+/* Enhanced Recognition Results */
+.enhanced-result-item {
+    margin: 1rem 0;
+}
+
+.result-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.result-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.best-match .result-card {
+    border-color: #28a745;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+}
+
+.result-header {
+    background: #f8f9fa;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.best-match-badge {
+    background: #28a745;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.student-photo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.student-photo-result {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.result-body {
+    padding: 1rem;
+}
+
+.student-name {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.student-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.student-details i {
+    margin-right: 0.5rem;
+    color: #888;
+}
+
+.confidence-section {
+    margin-bottom: 1rem;
+}
+
+.confidence-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.confidence-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.confidence-bar-large {
+    flex: 1;
+    height: 20px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.confidence-success { background: #28a745; }
+.confidence-warning { background: #ffc107; }
+.confidence-error { background: #dc3545; }
+
+.confidence-percentage {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.action-buttons .btn {
+    flex: 1;
+    max-width: 150px;
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-dialog {
+    background: white;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h4 {
+    margin: 0;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.modal-body {
+    padding: 1rem;
+}
+
+.modal-footer {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.captured-face-preview {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    display: block;
+    margin: 1rem auto;
+}
+
+.no-matches-container,
+.add-new-container {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.results-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.results-header h4 {
+    margin: 0;
+    color: #333;
+}
+
+.results-summary {
+    margin-top: 0.5rem;
+}
+
+.summary-stats {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.stat-item i {
+    color: #888;
+}
+
+.no-faces-container,
+.no-matches-container,
+.unrecognized-faces-container,
+.add-new-container,
+.reupload-container {
+    margin: 1rem 0;
+}
+
+/* Upload Area Styles */
+.upload-area {
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: var(--accent-teal) !important;
+    background-color: rgba(var(--accent-teal-rgb), 0.1);
+    transform: translateY(-2px);
+}
+
+.upload-area.drag-over {
+    border-color: var(--accent-violet) !important;
+    background-color: rgba(var(--accent-violet-rgb), 0.1);
+    transform: scale(1.02);
+}
+
+/* Recognition Results Styles */
+.recognition-result {
+    animation: slideInUp 0.5s ease-out;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.uploaded-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.student-card {
+    padding: 20px;
+    border-radius: 10px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+}
+
+.student-card.high-confidence {
+    border-left: 4px solid #28a745;
+}
+
+.student-card.medium-confidence {
+    border-left: 4px solid #ffc107;
+}
+
+.student-card.low-confidence {
+    border-left: 4px solid #dc3545;
+}
+
+.confidence-bar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--glass-border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.confidence-fill {
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.confidence-fill.high {
+    background-color: #28a745;
+}
+
+.confidence-fill.medium {
+    background-color: #ffc107;
+}
+
+.confidence-fill.low {
+    background-color: #dc3545;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.no-faces-container .alert {
+    border-left: 4px solid #17a2b8;
+}
+
+.no-matches-container .alert {
+    border-left: 4px solid #ffc107;
+}
+
+.unrecognized-faces-container .alert {
+    border-left: 4px solid #17a2b8;
+}
+
+.add-new-container .alert {
+    border-left: 4px solid #ffc107;
+}
+
+/* Bulk Results Styling */
+.bulk-results-container {
+    margin-top: 1rem;
+}
+
+.location-info-section {
+    margin-bottom: 1.5rem;
+}
+
+.location-alert {
+    margin-bottom: 0;
+}
+
+.attendance-results-section {
+    margin-top: 1rem;
+}
+
+.result-section {
+    margin-bottom: 1.5rem;
+}
+
+.result-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.result-item {
+    padding: 0.75rem;
+    border-radius: 6px;
+    border-left: 4px solid;
+    background: white;
+}
+
+.success-item {
+    border-left-color: #28a745;
+    background: #f8fff9;
+}
+
+.warning-item {
+    border-left-color: #ffc107;
+    background: #fffbf0;
+}
+
+.error-item {
+    border-left-color: #dc3545;
+    background: #fff5f5;
+}
+
+.student-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.confidence-badge {
+    background: #28a745;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.location-details {
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.location-details i {
+    color: #007bff;
+    margin-right: 0.25rem;
+}
+
+.error-message {
+    color: #dc3545;
+    font-weight: 500;
+}
+
+/* Checkbox Styling */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    margin: 0;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.checkbox-label i {
+    color: #007bff;
+}
+</style>
+{% endblock %}
+
+
